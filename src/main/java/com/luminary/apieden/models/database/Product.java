@@ -4,6 +4,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,13 +17,14 @@ import java.util.Date;
 @Builder
 @Entity
 @Table(name = "products")
-public class Products {
+public class Product {
     @Id
     @Column(name = "pk_id")
-    private int id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @Column(name = "fk_condition_type_id")
-    private int conditionTypeId;
+    private long conditionTypeId;
 
     @Column(name = "fk_users_id")
     private int usersId;
