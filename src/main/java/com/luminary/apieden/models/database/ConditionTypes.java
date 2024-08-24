@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -30,8 +31,8 @@ public class ConditionTypes {
 
     @Column(name = "creation_date")
     // Not Null
-    private Date creationDate;
+    private LocalDate creationDate;
 
     @Column(name = "change_date")
-    private Date changeDate;
+    private LocalDate changeDate;
 }

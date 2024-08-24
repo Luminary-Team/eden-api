@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -30,6 +31,5 @@ public class Comments {
     private String content;
 
     @Column(name = "creation_date")
-    // Not Null
-    private Date creationDate;
+    private LocalDate creationDate;
 }

@@ -10,6 +10,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -48,8 +49,9 @@ public class Product {
     private int stock;
 
     @Column(name = "creation_date")
-    private Date creationDate;
+    // Not Null
+    private LocalDate creationDate;
 
     @Column(name = "change_date")
-    private Date changeDate;
+    private LocalDate changeDate;
 }

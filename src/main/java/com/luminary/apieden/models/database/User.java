@@ -9,12 +9,17 @@ import jakarta.persistence.GenerationType;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
+
 
 @Getter
 @Setter
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "users")
 public class User {
@@ -27,7 +32,7 @@ public class User {
     private String name;
 
     @Column(name = "user_name")
-    private String user_name;
+    private String userName;
 
     @Column(name = "password")
     private String password;
@@ -45,8 +50,9 @@ public class User {
     private String profile_image_url;
 
     @Column(name = "creation_date")
-    private Date creationDate;
+    // Not Null
+    private LocalDate creationDate;
 
     @Column(name = "change_date")
-    private Date changeDate;
+    private LocalDate changeDate;
 }

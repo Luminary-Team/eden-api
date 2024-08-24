@@ -20,7 +20,7 @@ public class UserService {
     public User login(LoginRequest loginRequest) {
         List<User> userList = userRepository.findByEmail(loginRequest.getEmail());
         if(!userList.isEmpty() &&
-                userList.get(0).getSenha() == loginRequest.getSenha()) {
+                userList.get(0).getPassword().equals(loginRequest.getSenha())) {
             return userList.get(0);
         }
         throw new RuntimeException("E-mail ou senha inválidos");
