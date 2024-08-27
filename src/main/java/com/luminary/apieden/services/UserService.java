@@ -13,16 +13,17 @@ public class UserService {
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
     public User register(User user) {
         return userRepository.save(user);
     }
 
     public User login(LoginRequest loginRequest) {
-        List<User> userList = userRepository.findByEmail(loginRequest.getEmail());
+        List<User> userList = userRepository.findByCpf(loginRequest.getCpf());
         if(!userList.isEmpty() &&
-                userList.get(0).getPassword().equals(loginRequest.getSenha())) {
+                userList.get(0).getPassword().equals(loginRequest.getPassword())) {
             return userList.get(0);
         }
-        throw new RuntimeException("E-mail ou senha inválidos");
+        throw new RuntimeException("Invalid 'email' or 'password'");
     }
 }

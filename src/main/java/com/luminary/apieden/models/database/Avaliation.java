@@ -34,8 +34,8 @@ public class Avaliation {
     @Column(name = "fk_ecopoints_id")
     private int ecopointsId;
 
-    @Column(name = "fk_uses_evaluated_id")
-    private int usesEvaluatedId;
+    @Column(name = "fk_users_evaluated_id")
+    private int usersEvaluatedId;
 
     @Column(name = "creation_date")
     // Not Null
