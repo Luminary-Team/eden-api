@@ -16,7 +16,6 @@ import lombok.Setter;
 import lombok.Builder;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
-import org.hibernate.validator.constraints.br.CPF;
 
 import java.time.LocalDate;
 
@@ -48,7 +47,7 @@ public class User {
     @Column(name = "user_name")
     @NotNull(message = "The 'userName' field must be passed")
     @NotBlank(message = "The 'userName' field mustn't be blank")
-    private String userName;
+    private String username;
 
     @Column(name = "password")
     @NotNull(message = "The 'password' field must be passed")
