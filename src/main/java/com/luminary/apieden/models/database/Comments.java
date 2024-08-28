@@ -8,7 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "comments")
