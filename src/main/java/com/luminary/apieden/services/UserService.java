@@ -19,15 +19,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User login(LoginRequest loginRequest) {
-        User user = userRepository.findByEmail(loginRequest.getEmail());
-        if(user != null &&
-                user.getPassword().equals(loginRequest.getPassword())) {
-            return user;
-        }
-        throw new RuntimeException("Invalid 'email' or 'password'");
-    }
-
     private void checkUnique(User user) throws RuntimeException {
         if (userRepository.findByCpf(user.getCpf()) != null) {
             throw new RuntimeException("Cpf already registered");

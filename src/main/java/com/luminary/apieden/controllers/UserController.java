@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -33,7 +31,7 @@ public class UserController {
     }
 
     @GetMapping("/user/{id}")
-    public ResponseEntity<User> getUserById(String id) {
+    public ResponseEntity<User> getUserById(@PathVariable String id) {
         if (id == null) {
             throw new RuntimeException("ID required to get user");
         }
@@ -43,14 +41,6 @@ public class UserController {
     @GetMapping("/user")
     public ResponseEntity<List<User>> getUsers() {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<User> login(@RequestBody @Valid LoginRequest loginRequest) {
-        if (loginRequest.getEmail() == null || loginRequest.getPassword() == null) {
-            throw new RuntimeException("Invalid 'email' or 'password'");
-        }
-        return ResponseEntity.status(HttpStatus.OK).body(userService.login(loginRequest));
     }
 
     @PostMapping("/register")
