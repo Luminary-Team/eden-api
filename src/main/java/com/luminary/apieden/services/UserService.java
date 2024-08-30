@@ -20,12 +20,12 @@ public class UserService {
     }
 
     public User login(LoginRequest loginRequest) {
-        User user = userRepository.findByCpf(loginRequest.getCpf());
+        User user = userRepository.findByEmail(loginRequest.getEmail());
         if(user != null &&
                 user.getPassword().equals(loginRequest.getPassword())) {
             return user;
         }
-        throw new RuntimeException("Invalid 'cpf' or 'password'");
+        throw new RuntimeException("Invalid 'email' or 'password'");
     }
 
     private void checkUnique(User user) throws RuntimeException {

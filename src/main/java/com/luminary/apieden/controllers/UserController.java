@@ -47,7 +47,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<User> login(@RequestBody @Valid LoginRequest loginRequest) {
-        if (loginRequest.getCpf() == null || loginRequest.getPassword() == null) {
+        if (loginRequest.getEmail() == null || loginRequest.getPassword() == null) {
             throw new RuntimeException("Invalid 'email' or 'password'");
         }
         return ResponseEntity.status(HttpStatus.OK).body(userService.login(loginRequest));
