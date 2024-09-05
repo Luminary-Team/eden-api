@@ -36,11 +36,4 @@ public class Avaliation {
 
     @Column(name = "fk_users_evaluated_id")
     private int usersEvaluatedId;
-
-    @Column(name = "creation_date")
-    // Not Null
-    private LocalDate creationDate;
-
-    @Column(name = "change_date")
-    private LocalDate changeDate;
 }
