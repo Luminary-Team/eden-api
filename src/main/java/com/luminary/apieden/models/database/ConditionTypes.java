@@ -6,11 +6,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 @Setter
@@ -26,17 +26,10 @@ public class ConditionTypes {
     private long idUsageTime;
 
     @Column(name = "name")
-    // Not NULL
+    @NotNull
     private String name;
 
     @Column(name = "description")
-    // Not Null
+    @NotNull
     private String description;
-
-    @Column(name = "creation_date")
-    // Not Null
-    private LocalDate creationDate;
-
-    @Column(name = "change_date")
-    private LocalDate changeDate;
 }

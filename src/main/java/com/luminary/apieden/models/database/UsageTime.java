@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 import java.util.Date;
@@ -19,17 +20,10 @@ public class UsageTime {
     private long id;
 
     @Column(name = "time")
-    // Not Null
+    @NotNull
     private String time;
 
     @Column(name = "discount_percentage")
-    // Not Null
-    private float discount_percentage;
-
-    @Column(name = "creation_date")
-    // Not Null
-    private LocalDate creationDate;
-
-    @Column(name = "change_date")
-    private LocalDate changeDate;
+    @NotNull
+    private float discountPercentage;
 }
