@@ -62,12 +62,4 @@ public class Product {
     @Column(name = "stock")
     @NotNull(message = "The 'stock' field must be passed")
     private int stock;
-
-    @Column(name = "creation_date")
-    @NotNull(message = "The 'creationDate' field must be passed")
-    @NotBlank(message = "The 'creationDate' field mustn't be blank")
-    private LocalDate creationDate;
-
-    @Column(name = "change_date")
-    private LocalDate changeDate;
 }
