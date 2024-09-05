@@ -1,7 +1,6 @@
 package com.luminary.apieden.services;
 
 import com.luminary.apieden.models.database.User;
-import com.luminary.apieden.models.request.RegisterProfileImageRequest;
 import com.luminary.apieden.repositories.UserRepository;
 import org.springframework.stereotype.Service;
 
@@ -48,7 +47,7 @@ public class UserService {
         } else if (userRepository.findByEmail(user.getEmail()) != null) {
             throw new RuntimeException("Email already registered");
         } else if (userRepository.findByUserName(user.getUserName()) != null) {
-            throw new RuntimeException("Username already registered");
+            throw new RuntimeException("UserName already registered");
         } else if (user.getPhone() != null
                 && userRepository.findByPhone(user.getPhone()) != null) {
             throw new RuntimeException("Phone already registered");

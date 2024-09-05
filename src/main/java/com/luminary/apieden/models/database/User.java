@@ -49,15 +49,9 @@ public class User {
     private String name;
 
     @Column(name = "user_name")
-<<<<<<< HEAD
-    @NotNull(message = "The 'userName' field must be passed")
-    @NotBlank(message = "The 'userName' field mustn't be blank")
-    private String username;
-=======
     @NotBlank(message = "The 'userName' must be passed")
     @Schema(name = "userName", description = "The user name of the app", example = "pedro.gusmao")
     private String userName;
->>>>>>> c45007a8af9b711b71277e8e4a18026f36255ad6
 
     @Column(name = "password")
     @NotBlank(message = "The 'password' field must be passed")
