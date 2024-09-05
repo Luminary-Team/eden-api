@@ -67,7 +67,7 @@ public class UserController implements UserContract {
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    public void genericHandler(RuntimeException exception) {
-        exception.printStackTrace();
+    public String genericHandler(RuntimeException exception) {
+        return exception.getMessage();
     }
 }
