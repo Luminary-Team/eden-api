@@ -1,7 +1,7 @@
 package com.luminary.apieden.controllers;
 
+import com.luminary.apieden.controllers.contract.UserContract;
 import com.luminary.apieden.models.database.User;
-import com.luminary.apieden.models.request.LoginRequest;
 import com.luminary.apieden.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -24,13 +25,18 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
-public class UserController {
+public class UserController implements UserContract {
     private final UserService userService;
     public UserController (UserService userService) {
         this.userService = userService;
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping("/")
+    public ResponseEntity<List<User>> getUsers() {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
+    }
+
+    @GetMapping("/{id}")
     public ResponseEntity<User> getUserById(@PathVariable String id) {
         if (id == null) {
             throw new RuntimeException("ID required to get user");
@@ -38,14 +44,15 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findById(id));
     }
 
-    @GetMapping("/user")
-    public ResponseEntity<List<User>> getUsers() {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
-    }
-
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody @Valid User userRequest) {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.register(userRequest));
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.register(userRequest));
+    }
+
+    @PatchMapping("/update/{id}")
+    public ResponseEntity<User> partialUpdate(@PathVariable String id, @RequestBody Map<String, Object> request) {
+        userService.parcialUpdate(id, request);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -60,7 +67,7 @@ public class UserController {
 
     @ExceptionHandler(RuntimeException.class)
     @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    public String loginBadRequest(RuntimeException exception) {
-        return exception.getMessage();
+    public void genericHandler(RuntimeException exception) {
+        exception.printStackTrace();
     }
 }

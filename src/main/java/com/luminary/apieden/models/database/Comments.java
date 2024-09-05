@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -26,9 +27,6 @@ public class Comments {
     private long userId;
 
     @Column(name = "content")
-    // Not Null
+    @NotNull
     private String content;
-
-    @Column(name = "creation_date")
-    private LocalDate creationDate;
 }
