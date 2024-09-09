@@ -4,6 +4,7 @@ import com.luminary.apieden.controllers.contract.UserContract;
 import com.luminary.apieden.models.database.User;
 import com.luminary.apieden.services.UserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -25,11 +26,9 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
+@RequiredArgsConstructor
 public class UserController implements UserContract {
     private final UserService userService;
-    public UserController (UserService userService) {
-        this.userService = userService;
-    }
 
     @GetMapping("/")
     public ResponseEntity<List<User>> getUsers() {
