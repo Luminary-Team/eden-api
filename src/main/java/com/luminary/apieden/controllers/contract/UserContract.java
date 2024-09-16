@@ -51,6 +51,10 @@ public interface UserContract {
             @ApiResponse(responseCode = "400", description = "The id does not exists",
                 content = @Content(schema = @Schema(implementation = String.class)))
     })
+    @RequestBody(content = @Content(
+            schema = @Schema(type = "application/json", example = "{\n  \"profileImageUrl\": \"http\"\n}")
+    ))
+    @Parameter(example = "18", description = "The unique user id")
     public ResponseEntity partialUpdate(String id, Map<String, Object> request);
 
 }
