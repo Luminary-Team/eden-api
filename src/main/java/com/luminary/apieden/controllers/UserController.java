@@ -2,9 +2,11 @@ package com.luminary.apieden.controllers;
 
 import com.luminary.apieden.controllers.contract.UserContract;
 import com.luminary.apieden.models.database.User;
+import com.luminary.apieden.models.request.TokenRequest;
 import com.luminary.apieden.services.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -15,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -27,32 +31,60 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
+@Slf4j
 public class UserController implements UserContract {
     private final UserService userService;
 
-    @GetMapping("/")
+    @PostMapping("/login")
+    public Map<String, String> login(@RequestBody final TokenRequest tokenRequest) {
+        return userService.login(tokenRequest);
+    }
+
+    @GetMapping("/getAll")
     public ResponseEntity<List<User>> getUsers() {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable String id) {
-        if (id == null) {
-            throw new RuntimeException("ID required to get user");
+    @GetMapping("/getParam")
+    public ResponseEntity<User> getUserById(
+                                            @RequestParam(value = "userId", required = false) String userId,
+                                            @RequestParam(value = "cpf", required = false) String cpf,
+                                            @RequestParam(value = "email", required = false) String email) {
+        User user = new User();
+        if (userId != null) {
+            user = userService.findById(userId);
+        } else if (cpf != null) {
+            user = userService.findByCpf(cpf);
+        } else if (email != null) {
+            user = userService.findByEmail(email);
         }
-        return ResponseEntity.status(HttpStatus.OK).body(userService.findById(id));
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody @Valid User userRequest) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(userService.register(userRequest));
+        log.info("Trying to save user in database");
+        User user = userService.register(userRequest);
+        log.info("Saved user in database");
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(user);
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<User> partialUpdate(@PathVariable String id, @RequestBody Map<String, Object> request) {
+    public ResponseEntity<Map<String, Object>> partialUpdate(@PathVariable String id, @RequestBody Map<String, Object> request) {
         userService.parcialUpdate(id, request);
+        return ResponseEntity.status(HttpStatus.OK).body(request);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<Void> deleteUserById(@PathVariable String id) {
+        userService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -62,11 +94,5 @@ public class UserController implements UserContract {
             errors.put(error.getField(), error.getDefaultMessage());
         }
         return errors;
-    }
-
-    @ExceptionHandler(RuntimeException.class)
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    public String genericHandler(RuntimeException exception) {
-        return exception.getMessage();
     }
 }
