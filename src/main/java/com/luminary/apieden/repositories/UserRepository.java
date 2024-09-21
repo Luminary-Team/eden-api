@@ -4,10 +4,11 @@ import com.luminary.apieden.models.database.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    User findByCpf(String cpf);
-    User findByEmail(String email);
-    User findByUserName(String username);
-    User findByPhone(String phone);
+    Optional<User> findByCpf(String cpf);
+    Optional<User> findByEmail(String email);
+    Optional<User> findByUserName(String username);
+    Optional<User> findByCellphone(String phone);
 }

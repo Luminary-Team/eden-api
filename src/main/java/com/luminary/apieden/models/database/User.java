@@ -33,6 +33,7 @@ public class User {
     @Id
     @Column(name = "pk_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(hidden = true)
     private long id;
 
     @Column(name = "cpf", nullable = false, unique = true)
@@ -43,13 +44,14 @@ public class User {
     private String cpf;
 
     @Column(name = "name")
-    @NotNull(message = "The 'name' field must be passed")
     @NotBlank(message = "The 'name' field mustn't be blank")
+    @Size(message = "'name' passes 45 characters limit", max = 45)
     @Schema(name = "name", description = "The name of the user", example = "Pedro Moisés")
     private String name;
 
     @Column(name = "user_name")
     @NotBlank(message = "The 'userName' must be passed")
+    @Size(message = "'userName' passes 45 characters limit", max = 45)
     @Schema(name = "userName", description = "The user name of the app", example = "pedro.gusmao")
     private String userName;
 
@@ -58,9 +60,9 @@ public class User {
     @Schema(name = "password", description = "The password of the user", example = "megaSenha@123")
     private String password;
 
-    @Column(name = "avaliation")
-    @Schema(name = "avaliation", description = "The avaliation of the user", example = "3.5")
-    private float avaliation;
+    @Column(name = "rating")
+    @Schema(name = "rating", description = "The rating of the user", example = "3.5")
+    private float rating;
 
     @Column(name = "email", nullable = false, unique = true)
     @NotBlank(message = "The 'email' field must be passed")
@@ -68,12 +70,8 @@ public class User {
     @Schema(name = "email", description = "The email of the user", example = "pedro.pedro@mail.com")
     private String email;
 
-    @Column(name = "phone", unique = true)
-    @Size(message = "The 'phone' field must have 11 numbers", min = 11, max = 11)
-    @Schema(name = "phone", description = "The phone of the user", example = "40028922")
-    private String phone;
-
-    @Column(name = "profile_image_url")
-    @Schema(name = "profileImageUrl", description = "The profile url of the user", example = "http.cat/")
-    private String profileImageUrl;
+    @Column(name = "cellphone", unique = true)
+    @Size(message = "The 'cellphone' field must have 11 numbers", min = 11, max = 11)
+    @Schema(name = "cellphone", description = "The phone of the user", example = "11400289220")
+    private String cellphone;
 }

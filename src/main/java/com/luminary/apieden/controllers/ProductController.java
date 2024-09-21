@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -37,7 +38,7 @@ public class ProductController {
     @GetMapping("/{id}")
     public ResponseEntity<Product> getProductById(@PathVariable String id) {
         if (id == null) {
-            throw new RuntimeException("ID required to get user");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "ID required to get user");
         }
         return ResponseEntity.status(HttpStatus.OK).body(productService.getProductById(id));
     }
@@ -55,11 +56,5 @@ public class ProductController {
             errors.put(error.getField(), error.getDefaultMessage());
         }
         return errors;
-    }
-
-    @ExceptionHandler(RuntimeException.class)
-    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
-    public String genericHandler(RuntimeException exception) {
-        return exception.getMessage();
     }
 }
