@@ -1,10 +1,10 @@
-package com.luminary.apieden.models.request;
+package com.luminary.apieden.model.request;
 
 import lombok.Getter;
 
 @Getter
 public class TokenRequest {
-    private String userId;
+    private String email;
     private String password;
 
 }

@@ -1,7 +1,7 @@
-package com.luminary.apieden.services;
+package com.luminary.apieden.service;
 
-import com.luminary.apieden.models.database.User;
-import com.luminary.apieden.repositories.UserRepository;
+import com.luminary.apieden.model.database.User;
+import com.luminary.apieden.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -17,8 +17,8 @@ public class CustomUserDetailsService implements UserDetailsService {
         this.usersRepository = usersRepository;
     }
 
-    public UserDetails loadUserByUsername(String id) throws UsernameNotFoundException {
-        User user = usersRepository.findById(Long.valueOf(id))
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = usersRepository.findByEmail(email)
                 .orElseThrow(() -> new UsernameNotFoundException("Usuário não existe"));
 
         return new org.springframework.security.core.userdetails.User(

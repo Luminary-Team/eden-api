@@ -1,7 +1,7 @@
-package com.luminary.apieden.services;
+package com.luminary.apieden.service;
 
-import com.luminary.apieden.models.database.Product;
-import com.luminary.apieden.repositories.ProductRepository;
+import com.luminary.apieden.model.database.Product;
+import com.luminary.apieden.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

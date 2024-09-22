@@ -1,4 +1,4 @@
-package com.luminary.apieden.models.database;
+package com.luminary.apieden.model.database;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,9 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDate;
-import java.util.Date;
 
 @Getter
 @Setter
