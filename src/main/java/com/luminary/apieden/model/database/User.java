@@ -1,4 +1,4 @@
-package com.luminary.apieden.models.database;
+package com.luminary.apieden.model.database;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;

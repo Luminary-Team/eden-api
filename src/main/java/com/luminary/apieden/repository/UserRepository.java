@@ -1,9 +1,8 @@
-package com.luminary.apieden.repositories;
+package com.luminary.apieden.repository;
 
-import com.luminary.apieden.models.database.User;
+import com.luminary.apieden.model.database.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {

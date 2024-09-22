@@ -1,4 +1,4 @@
-package com.luminary.apieden.models.database;
+package com.luminary.apieden.model.database;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -9,8 +9,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter

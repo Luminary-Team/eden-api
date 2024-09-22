@@ -1,9 +1,11 @@
-package com.luminary.apieden.controllers;
+package com.luminary.apieden.controller;
 
-import com.luminary.apieden.controllers.contract.UserContract;
-import com.luminary.apieden.models.database.User;
-import com.luminary.apieden.models.request.TokenRequest;
-import com.luminary.apieden.services.UserService;
+import com.luminary.apieden.controller.contract.UserContract;
+import com.luminary.apieden.model.exception.HttpError;
+import com.luminary.apieden.model.database.User;
+import com.luminary.apieden.model.response.ErrorResponse;
+import com.luminary.apieden.model.request.TokenRequest;
+import com.luminary.apieden.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,9 +37,9 @@ import java.util.Map;
 public class UserController implements UserContract {
     private final UserService userService;
 
-    @PostMapping("/login")
-    public Map<String, String> login(@RequestBody final TokenRequest tokenRequest) {
-        return userService.login(tokenRequest);
+    @PostMapping("/token")
+    public Map<String, String> token(@RequestBody final TokenRequest tokenRequest) {
+        return userService.token(tokenRequest);
     }
 
     @GetMapping("/getAll")
@@ -50,23 +52,29 @@ public class UserController implements UserContract {
                                             @RequestParam(value = "userId", required = false) String userId,
                                             @RequestParam(value = "cpf", required = false) String cpf,
                                             @RequestParam(value = "email", required = false) String email) {
-        User user = new User();
+        User user = null;
+        log.info("Trying to fetch user by valid parameter");
         if (userId != null) {
+            log.info("Fetching user by id: {}", userId);
             user = userService.findById(userId);
         } else if (cpf != null) {
+            log.info("Fetching user by cpf: {}", cpf);
             user = userService.findByCpf(cpf);
         } else if (email != null) {
+            log.info("Fetching user by email: {}", email);
             user = userService.findByEmail(email);
         }
         if (user == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+            log.warn("None valid parameter was passed, user not found");
+            throw new HttpError(HttpStatus.BAD_REQUEST, "User was not found");
         }
+        log.info("Returning user");
         return ResponseEntity.status(HttpStatus.OK).body(user);
     }
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody @Valid User userRequest) {
-        log.info("Trying to save user in database");
+        log.info("Attempting to save user in database");
         User user = userService.register(userRequest);
         log.info("Saved user in database");
 
@@ -89,10 +97,17 @@ public class UserController implements UserContract {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, Object> verifyUser(BindingResult result) {
+        log.error("BAD REQUEST error", result);
         Map<String, Object> errors = new HashMap<>();
         for (FieldError error: result.getFieldErrors()) {
             errors.put(error.getField(), error.getDefaultMessage());
         }
         return errors;
+    }
+
+    @ExceptionHandler(HttpError.class)
+    public ResponseEntity<ErrorResponse> genericHandler(HttpError error) {
+        ErrorResponse errorResponse = new ErrorResponse(error.getStatus(), error.getMessage());
+        return ResponseEntity.status(errorResponse.getHttpStatus()).body(errorResponse);
     }
 }
