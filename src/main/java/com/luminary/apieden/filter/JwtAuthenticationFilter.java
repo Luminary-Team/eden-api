@@ -1,6 +1,6 @@
 package com.luminary.apieden.filter;
 
-import com.luminary.apieden.services.CustomUserDetailsService;
+import com.luminary.apieden.service.CustomUserDetailsService;
 import io.jsonwebtoken.Jwts;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -27,16 +27,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         if (authHeader != null && authHeader.startsWith("Bearer ")) {
             String token = authHeader.substring(7);
             try {
-                Long id = Long.valueOf((Integer) Jwts.parserBuilder()
+                String email = Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .build()
                 .parseClaimsJws(token)
                 .getBody()
-                .get("id"));
+                .getSubject();
 
-                if (id != null) {
-                    // Na verdade, busca por ID
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(String.valueOf(Long.valueOf(id)));
+                if (email != null) {
+                    // Na verdade, busca por email
+                    UserDetails userDetails = userDetailsService.loadUserByUsername(email);
                     UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(
                             userDetails,
                             null,

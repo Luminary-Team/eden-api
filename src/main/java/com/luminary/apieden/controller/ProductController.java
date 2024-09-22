@@ -1,7 +1,7 @@
-package com.luminary.apieden.controllers;
+package com.luminary.apieden.controller;
 
-import com.luminary.apieden.models.database.Product;
-import com.luminary.apieden.services.ProductService;
+import com.luminary.apieden.model.database.Product;
+import com.luminary.apieden.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.server.ResponseStatusException;

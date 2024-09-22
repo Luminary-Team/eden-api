@@ -1,7 +1,7 @@
 package com.luminary.apieden.config;
 
 import com.luminary.apieden.filter.JwtAuthenticationFilter;
-import com.luminary.apieden.services.CustomUserDetailsService;
+import com.luminary.apieden.service.CustomUserDetailsService;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.HttpServletResponse;
@@ -30,7 +30,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("swagger-ui/**",  "v3/api-docs/**").permitAll()
-                        .requestMatchers("user/register", "user/login").permitAll()
+                        .requestMatchers("user/register", "user/token").permitAll()
                         .requestMatchers("admin/**").authenticated()
                         .requestMatchers("user/**").authenticated()
                 )
