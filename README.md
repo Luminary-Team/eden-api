@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <strong>Integrantes:</strong> Pedro Moisés de Gusmão
+  <strong>Integrantes:</strong> Pedro Moisés Araújo de Gusmão
 </p>
 
 <hr>
@@ -20,11 +20,22 @@
 
 <h2>📖 Bibliotecas Utilizadas</h2>
 <ul>
+  <li>Spring Boot</li>
+  <li>Spring Security</li>
+  <li>Lombok</li>
+  <li>Spring Data JPA</li>
+  <li>Json Web Token</li>
 </ul>
 
 <hr>
 
 <h2>📂 Estrutura do Repositório</h2>
+  <li>Config</li>
+  <li>Controller</li>
+  <li>Filter</li>
+  <li>Model</li>
+  <li>Repository</li>
+  <li>Service</li>
 <ul>
 </ul>
 
@@ -37,5 +48,5 @@
 <hr>
 
 <p align="center">
-  <strong>Desenvolvido por Pedro Moisés de Gusmão</strong>
+  <strong>Desenvolvido por Pedro Moisés Araújo de Gusmão</strong>
 </p>
