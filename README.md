@@ -24,11 +24,18 @@
   <li>Spring Security</li>
   <li>Lombok</li>
   <li>Spring Data JPA</li>
+  <li>Json Web Token</li>
 </ul>
 
 <hr>
 
 <h2>📂 Estrutura do Repositório</h2>
+  <li>Config</li>
+  <li>Controller</li>
+  <li>Filter</li>
+  <li>Model</li>
+  <li>Repository</li>
+  <li>Service</li>
 <ul>
 </ul>
 
