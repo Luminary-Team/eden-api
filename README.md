@@ -20,6 +20,10 @@
 
 <h2>📖 Bibliotecas Utilizadas</h2>
 <ul>
+  <li>Spring Boot</li>
+  <li>Spring Security</li>
+  <li>Lombok</li>
+  <li>Spring Data JPA</li>
 </ul>
 
 <hr>
