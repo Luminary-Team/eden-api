@@ -5,7 +5,7 @@
 </p>
 
 <p align="center">
-  <strong>Integrantes:</strong> Pedro Moisés de Gusmão
+  <strong>Integrantes:</strong> Pedro Moisés Araújo de Gusmão
 </p>
 
 <hr>
@@ -37,5 +37,5 @@
 <hr>
 
 <p align="center">
-  <strong>Desenvolvido por Pedro Moisés de Gusmão</strong>
+  <strong>Desenvolvido por Pedro Moisés Araújo de Gusmão</strong>
 </p>
