@@ -67,6 +67,7 @@ public class User {
     @Column(name = "email", nullable = false, unique = true)
     @NotBlank(message = "The 'email' field must be passed")
     @Email(message = "The 'email' field is invalid")
+    @Size(message = "Email exceeds maximum digit limit", max = 90)
     @Schema(name = "email", description = "The email of the user", example = "pedro.pedro@mail.com")
     private String email;
 
