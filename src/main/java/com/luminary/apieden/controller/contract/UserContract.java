@@ -29,7 +29,7 @@ public interface UserContract {
     })
     public Map<String, String> token(final TokenRequest tokenRequest);
 
-    @Operation(summary = "Return all users(requires token)", description = "Return all users registered in the database(requires token)", deprecated = true)
+    @Operation(summary = "Return all users(requires token)", description = "Return all users registered in the database(requires token)")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "All users are returned with success"),
             @ApiResponse(responseCode = "500", description = "Internal server error",
