@@ -29,13 +29,13 @@ public interface UserContract {
     })
     public Map<String, String> token(final TokenRequest tokenRequest);
 
-    @Operation(summary = "Return all users(requires token)", description = "Return all users registered in the database(requires token)")
+    @Operation(summary = "Return all users(requires token)", description = "Return all users registered in the database(requires token)", deprecated = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "All users are returned with success"),
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)
     })
-    public ResponseEntity<List<User>> getUsers();
+    public ResponseEntity<List<User>> getAll();
 
     @Operation(summary = "Return an user by an unique attribute(requires token)", description = "Return an user by an unique attribute(requires token)", deprecated = true)
     @ApiResponses(value = {

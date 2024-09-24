@@ -43,7 +43,7 @@ public class UserController implements UserContract {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<User>> getUsers() {
+    public ResponseEntity<List<User>> getAll() {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
     }
 
