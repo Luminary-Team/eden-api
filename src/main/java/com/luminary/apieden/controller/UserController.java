@@ -83,7 +83,8 @@ public class UserController implements UserContract {
 
     @PatchMapping("/update/{id}")
     public ResponseEntity<Map<String, Object>> partialUpdate(@PathVariable String id, @RequestBody Map<String, Object> request) {
-        userService.parcialUpdate(id, request);
+        log.info("Entering in partialUpdate method.");
+        userService.partialUpdate(id, request);
         return ResponseEntity.status(HttpStatus.OK).body(request);
     }
 
@@ -97,7 +98,7 @@ public class UserController implements UserContract {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public Map<String, Object> verifyUser(BindingResult result) {
-        log.error("BAD REQUEST error", result);
+        log.error("BAD REQUEST error. {}", result);
         Map<String, Object> errors = new HashMap<>();
         for (FieldError error: result.getFieldErrors()) {
             errors.put(error.getField(), error.getDefaultMessage());
@@ -107,6 +108,7 @@ public class UserController implements UserContract {
 
     @ExceptionHandler(HttpError.class)
     public ResponseEntity<ErrorResponse> genericHandler(HttpError error) {
+        log.error("An error occurred. {}", error.getMessage());
         ErrorResponse errorResponse = new ErrorResponse(error.getStatus(), error.getMessage());
         return ResponseEntity.status(errorResponse.getHttpStatus()).body(errorResponse);
     }
