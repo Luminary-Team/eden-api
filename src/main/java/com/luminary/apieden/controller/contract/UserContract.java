@@ -52,7 +52,7 @@ public interface UserContract {
     @Parameter(name = "email", example = "pedro.pedro@mail.com", description = "The email of the user")
     public ResponseEntity<User> getUserById(String userId, String cpf, String email);
 
-    @Operation(summary = "Register user in database(requires token)", description = "Register an user in database", deprecated = true)
+    @Operation(summary = "Register user in database(requires token)", description = "Register an user in database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "User registered successfully",
                     content = @Content(schema = @Schema(implementation = UserContract.class))),
