@@ -7,11 +7,15 @@ import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "condition_types")
 public class ConditionTypes {
@@ -20,12 +24,9 @@ public class ConditionTypes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "fk_usage_time_id")
-    private long idUsageTime;
-
-    @Column(name = "name")
+    @Column(name = "type")
     @NotNull
-    private String name;
+    private String type;
 
     @Column(name = "description")
     @NotNull
