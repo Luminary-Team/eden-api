@@ -43,12 +43,12 @@ public class UserController implements UserContract {
     }
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<User>> getAll() {
+    public ResponseEntity<List<User>> findUsers() {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
     }
 
     @GetMapping("/getParam")
-    public ResponseEntity<User> getUserById(
+    public ResponseEntity<User> findUserById(
                                             @RequestParam(value = "userId", required = false) String userId,
                                             @RequestParam(value = "cpf", required = false) String cpf,
                                             @RequestParam(value = "email", required = false) String email) {

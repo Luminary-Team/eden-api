@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Map;
 
-@Tag(name = "User Controller", description = "Endpoints to interact with the UserEntity, deprecated endpoints require token to be accessed")
+@Tag(name = "User Controller", description = "Endpoints to interact with the User entity, deprecated endpoints require token to be accessed")
 public interface UserContract {
 
     @Operation(description = "Create token to access authenticated endpoints")
@@ -35,7 +35,7 @@ public interface UserContract {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)
     })
-    public ResponseEntity<List<User>> getAll();
+    public ResponseEntity<List<User>> findUsers();
 
     @Operation(summary = "Return an user by an unique attribute(requires token)", description = "Return an user by an unique attribute(requires token)", deprecated = true)
     @ApiResponses(value = {
@@ -50,7 +50,7 @@ public interface UserContract {
     @Parameter(name = "userId", example = "18",  description = "The id of the user")
     @Parameter(name = "cpf", example = "42391552076", description = "The Cpf of the user")
     @Parameter(name = "email", example = "pedro.pedro@mail.com", description = "The email of the user")
-    public ResponseEntity<User> getUserById(String userId, String cpf, String email);
+    public ResponseEntity<User> findUserById(String userId, String cpf, String email);
 
     @Operation(summary = "Register user in database(requires token)", description = "Register an user in database")
     @ApiResponses(value = {
