@@ -21,7 +21,7 @@ jobs:
       run: mvn -B package -DskipTests --file pom.xml
     
     - name: Render Deploy Action
-      uses: johnbeynon/render-deploy-action@v0.0.8
+      uses: johnbeynon/render-deploy-action@747373cdb7b9b3f561438e063ee0815b71584f1b
       with:
         # ID of the service to deploy
         service-id: ${{secrets.SERVICE_ID}}
