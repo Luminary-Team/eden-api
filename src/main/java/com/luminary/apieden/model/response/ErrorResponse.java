@@ -10,6 +10,6 @@ import org.springframework.http.HttpStatus;
 public class ErrorResponse {
     @Schema(name = "httpStatus", description = "Error status from call", example = "400")
     private HttpStatus httpStatus;
-    @Schema(name = "message", description = "Error message", example = "Cpf already registered")
+    @Schema(name = "message", description = "Error message", example = "An error occurred")
     private String message;
 }

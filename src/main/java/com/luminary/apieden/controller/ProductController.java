@@ -1,10 +1,12 @@
 package com.luminary.apieden.controller;
 
+import com.luminary.apieden.controller.contract.ProductContract;
 import com.luminary.apieden.model.database.Product;
 import com.luminary.apieden.model.exception.HttpError;
 import com.luminary.apieden.model.request.ProductRequest;
 import com.luminary.apieden.model.response.ErrorResponse;
 import com.luminary.apieden.service.ProductService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,15 +35,15 @@ import java.util.Map;
 @RequestMapping("/product")
 @RequiredArgsConstructor
 @Slf4j
-public class ProductController {
+public class ProductController implements ProductContract {
     private final ProductService productService;
 
-    @GetMapping("/getAll")
+    @GetMapping("/findAll")
     public ResponseEntity<List<Product>> findProducts() {
         return ResponseEntity.status(HttpStatus.OK).body(productService.findAll());
     }
 
-    @GetMapping("/getParam")
+    @GetMapping("/findByTitle")
     public ResponseEntity<List<Product>> findProductByTitleLike(
             @RequestParam("title") String title) {
         List<Product> productList = productService.findProductByTitleLike(title);

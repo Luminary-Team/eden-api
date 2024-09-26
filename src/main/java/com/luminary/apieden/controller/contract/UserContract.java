@@ -32,6 +32,9 @@ public interface UserContract {
     @Operation(summary = "Return all users(requires token)", description = "Return all users registered in the database(requires token)", deprecated = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "All users are returned with success"),
+            @ApiResponse(responseCode = "400", description = "No Bad Request error happens here",
+                    content = @Content),
+            @ApiResponse(responseCode = "418", description = "I'm a teapot"),
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)
     })
@@ -78,6 +81,8 @@ public interface UserContract {
     @Operation(summary = "Delete user", description = "Delete user by id", deprecated = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "User deleted with success"),
+            @ApiResponse(responseCode = "400", description = "No Bad Request error happens here",
+                    content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
     @Parameter(name = "id", example = "2", description = "The unique user id")
