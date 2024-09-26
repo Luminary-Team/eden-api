@@ -1,7 +1,7 @@
-# Pull Request Template
+# Title
 
-## Descrição
-Detalhe aqui as alterações realizadas
+## Description
+Put the alterations details here
 
 ## Checklist
 - [] All code in English
