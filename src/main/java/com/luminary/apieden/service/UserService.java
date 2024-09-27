@@ -76,7 +76,6 @@ public class UserService {
 
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         if (!violations.isEmpty()) {
-            // Se houver violações de validação, lance uma exceção ou trate conforme necessário
             StringBuilder errorMessage = new StringBuilder("Erros de validação:");
             for (ConstraintViolation<User> violation : violations) {
                 errorMessage.append(" /  ").append(violation.getMessage());
