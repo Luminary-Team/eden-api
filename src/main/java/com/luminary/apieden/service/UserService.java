@@ -132,7 +132,7 @@ public class UserService {
                 String token = Jwts.builder()
                         .setSubject(user.getEmail())
                         .setExpiration(new Date(System.currentTimeMillis() + 86_400_000)) // 1 day
-                        .signWith(secretKey, SignatureAlgorithm.HS512) // Usa a chave secreta para assinar
+                        .signWith(secretKey, SignatureAlgorithm.HS512)
                         .compact();
                 log.info("Generated Token: {}", token);
                 return Map.of("token", "Bearer " + token);

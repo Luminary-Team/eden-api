@@ -39,11 +39,7 @@ public class ProductService {
     }
 
     public List<Product> findProductByTitleLike(String title) throws HttpError {
-        List<Product> productList = productRepository.findByTitleLike(title);
-        if (productList.isEmpty()) {
-            throw new HttpError(HttpStatus.BAD_REQUEST, "No products found");
-        }
-        return productList;
+        return productRepository.findByTitleLike(title);
 
     }
 
@@ -144,7 +140,9 @@ public class ProductService {
         productRepository.save(product);
     }
 
-    public void deleteById(String id) {
+    public void deleteById(String id) throws HttpError {
+        productRepository.findById(Long.valueOf(id))
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Product not found"));
         log.info("[PRODUCT] Deleting product");
         productRepository.deleteById(Long.valueOf(id));
         log.info("[PRODUCT] Product deleted");

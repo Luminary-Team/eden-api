@@ -1,5 +1,6 @@
 package com.luminary.apieden.model.database;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -33,31 +34,37 @@ public class Product {
     @Id
     @Column(name = "pk_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(hidden = true)
     private long id;
 
     @ManyToOne
     @JoinColumn(name = "fk_usage_time_id", nullable = false)
     @NotNull(message = "The 'usageTime' field must be passed")
+    @Schema(name = "usageTime", description = "ID of the corresponding usage time", example = "1")
     private UsageTime usageTime;
 
     @ManyToOne
     @JoinColumn(name = "fk_condition_type_id", nullable = false)
     @NotNull(message = "The 'conditionType' field must be passed")
+    @Schema(name = "conditionType", description = "ID of the corresponding condition type", example = "1")
     private ConditionTypes conditionType;
 
     @ManyToOne
     @JoinColumn(name = "fk_user_id", nullable = false)
     @NotNull(message = "The 'user' field must be passed")
+    @Schema(name = "user", description = "The information about the user responsible for the creation of the user", implementation = User.class)
     private User user;
 
     @Column(name = "title", nullable = false, unique = true)
     @NotBlank(message = "The 'title' field mustn't be blank")
     @Size(message = "The 'title' can't pass 45 digits", max = 45)
+    @Schema(name = "title", description = "Title of the product", example = "PC Gamer")
     private String title;
 
     @Column(name = "description", nullable = false)
     @NotBlank(message = "The 'description' field mustn't be blank")
     @Size(message = "The 'description' can't pass 90 digits", max = 90)
+    @Schema(name = "description", description = "Description of the product", example = "")
     private String description;
 
     @Column(name = "price", nullable = false)
