@@ -1,0 +1,19 @@
+name: Build and Deploy
+
+on: push
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Render Deploy Action
+      uses: johnbeynon/render-deploy-action@747373cdb7b9b3f561438e063ee0815b71584f1b
+      with:
+        # ID of the service to deploy
+        service-id: ${{secrets.SERVICE_ID}}
+        # A Render API key
+        api-key: ${{secrets.API_KEY}}
+        wait-for-success: true
