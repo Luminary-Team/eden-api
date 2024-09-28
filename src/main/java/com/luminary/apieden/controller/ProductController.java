@@ -71,21 +71,4 @@ public class ProductController implements ProductContract {
         productService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
-
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public Map<String, Object> verifyProduct(BindingResult result) {
-        Map<String, Object> errors = new HashMap<>();
-        for (FieldError error: result.getFieldErrors()) {
-            errors.put(error.getField(), error.getDefaultMessage());
-        }
-        return errors;
-    }
-
-    @ExceptionHandler(HttpError.class)
-    public ResponseEntity<ErrorResponse> genericHandler(HttpError error) {
-        log.error("An error occurred. {}", error.getMessage());
-        ErrorResponse errorResponse = new ErrorResponse(error.getStatus(), error.getMessage());
-        return ResponseEntity.status(errorResponse.getHttpStatus()).body(errorResponse);
-    }
 }
