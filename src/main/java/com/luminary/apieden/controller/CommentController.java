@@ -1,5 +1,6 @@
 package com.luminary.apieden.controller;
 
+import com.luminary.apieden.controller.contract.CommentContract;
 import com.luminary.apieden.model.database.Comment;
 import com.luminary.apieden.model.request.CommentRequest;
 import com.luminary.apieden.model.request.UpdateCommentRequest;
@@ -16,7 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/comment")
 @RequiredArgsConstructor
-public class CommentController {
+public class CommentController implements CommentContract {
     private final CommentService commentService;
 
     @GetMapping("/product/{id}")
@@ -33,7 +34,7 @@ public class CommentController {
     public ResponseEntity<CommentResponse> updateComment(
             @PathVariable String id,
             @RequestBody @Valid UpdateCommentRequest updateCommentRequest) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(commentService.updateComment(id, updateCommentRequest));
+        return ResponseEntity.status(HttpStatus.OK).body(commentService.updateComment(id, updateCommentRequest));
     }
 
     @DeleteMapping("/{id}")
