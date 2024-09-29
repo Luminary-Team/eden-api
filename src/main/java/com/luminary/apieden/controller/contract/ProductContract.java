@@ -4,8 +4,10 @@ import com.luminary.apieden.model.database.Product;
 import com.luminary.apieden.model.request.ProductRequest;
 import com.luminary.apieden.model.response.ErrorResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -49,6 +51,8 @@ public interface ProductContract {
             @ApiResponse(responseCode = "400", description = "Invalid field passed",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
+    @Parameter(name = "id", description = "Id of the product to be updated")
+    @RequestBody(content = @Content(schema = @Schema(implementation = MapExample.class)))
     public ResponseEntity<Map<String, Object>> partialUpdate(String id, Map<String, Object> request);
 
     @Operation(summary = "Delete product", description = "Delete product by ID")
