@@ -7,7 +7,6 @@ import org.mapstruct.Mapping;
 import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring")
-@Component
 public interface ProductMapper {
     @Mapping(target = "usageTime", ignore = true)
     @Mapping(target = "conditionType", ignore = true)

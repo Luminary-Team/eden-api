@@ -1,8 +1,6 @@
 name: Build and Deploy
 
-on:
-  pull_request:
-    branches: [ "main" ]
+on: push
 
 jobs:
   build:
@@ -10,16 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: maven
-    - name: Build with Maven
-      run: mvn -B package -DskipTests --file pom.xml
-    
+
     - name: Render Deploy Action
       uses: johnbeynon/render-deploy-action@747373cdb7b9b3f561438e063ee0815b71584f1b
       with:
