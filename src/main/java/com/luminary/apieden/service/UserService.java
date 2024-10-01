@@ -3,6 +3,7 @@ package com.luminary.apieden.service;
 import com.luminary.apieden.model.database.User;
 import com.luminary.apieden.model.exception.HttpError;
 import com.luminary.apieden.model.request.TokenRequest;
+import com.luminary.apieden.model.response.TokenResponse;
 import com.luminary.apieden.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -124,7 +125,7 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Map<String, String> token(TokenRequest tokenRequest) throws HttpError {
+    public TokenResponse token(TokenRequest tokenRequest) throws HttpError {
         User user = userRepository.findByEmail(tokenRequest.getEmail())
                 .orElseThrow(() ->  new HttpError(HttpStatus.BAD_REQUEST, "User not found"));
         if (user != null && passwordEncoder.matches(tokenRequest.getPassword(), user.getPassword())) {
@@ -135,7 +136,7 @@ public class UserService {
                         .signWith(secretKey, SignatureAlgorithm.HS512)
                         .compact();
                 log.info("Generated Token: {}", token);
-                return Map.of("token", "Bearer " + token);
+                return new TokenResponse(token);
             } catch (Exception e) {
                 log.error("Error ao gerar o token JWT", e);
                 throw new HttpError(HttpStatus.INTERNAL_SERVER_ERROR, "Erro ao gerar o token JWT");

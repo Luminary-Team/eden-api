@@ -3,6 +3,7 @@ package com.luminary.apieden.controller.contract;
 import com.luminary.apieden.model.database.User;
 import com.luminary.apieden.model.response.ErrorResponse;
 import com.luminary.apieden.model.request.TokenRequest;
+import com.luminary.apieden.model.response.TokenResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,7 +28,7 @@ public interface UserContract {
             @ApiResponse(responseCode = "403", description = "Access Denied",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public Map<String, String> token(final TokenRequest tokenRequest);
+    public TokenResponse token(final TokenRequest tokenRequest);
 
     @Operation(summary = "Return all users(requires token)", description = "Return all users registered in the database(requires token)", deprecated = true)
     @ApiResponses(value = {
