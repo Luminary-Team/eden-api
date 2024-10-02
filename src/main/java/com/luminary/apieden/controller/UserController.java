@@ -60,7 +60,7 @@ public class UserController implements UserContract {
         }
         if (user == null) {
             log.warn("None valid parameter was passed, user not found");
-            throw new HttpError(HttpStatus.BAD_REQUEST, "User was not found");
+            throw new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado");
         }
         log.info("Returning user");
         return ResponseEntity.status(HttpStatus.OK).body(user);

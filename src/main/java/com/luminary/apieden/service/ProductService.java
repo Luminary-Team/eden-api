@@ -45,11 +45,11 @@ public class ProductService {
 
     public Product register(ProductRequest productRequest) throws HttpError {
         ConditionTypes conditionTypes = conditionTypeRepository.findById(productRequest.getConditionTypeId())
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Condition type not found"));
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Tipo de condição não encontrado"));
         UsageTime usageTime = usageTimeRepository.findById(productRequest.getUsageTimeId())
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usage time not found"));
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Tempo de uso não encontrado"));
         User user = userRepository.findByEmail(productRequest.getEmail())
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "User not found"));
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
         Product product = productMapper.toProduct(productRequest);
         product.setConditionType(conditionTypes);
         product.setUsageTime(usageTime);
@@ -60,13 +60,13 @@ public class ProductService {
 
     public void partialUpdate(String id, Map<String, Object> request) throws HttpError {
         Product product = productRepository.findById(Long.valueOf(id))
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Product not found"));
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Produto não encontrado"));
         boolean verifyVariable = false;
         if (request.containsKey("usageTime")) {
             Long usageTimeId = (Long) request.get("usageTime");
             log.info("[PRODUCT] usageTime {} being updated to {}", product.getUsageTime().getId(), usageTimeId);
             UsageTime usageTime = usageTimeRepository.findById(usageTimeId)
-                    .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usage time not found"));
+                    .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Tempo de uso não encontrado"));
             product.setUsageTime(usageTime);
             verifyVariable = true;
             log.info("[PRODUCT] usageTime updated");
@@ -74,7 +74,7 @@ public class ProductService {
             Long conditionTypeId = (Long) request.get("conditionType");
             log.info("[PRODUCT] conditionType {} being updated to {}", product.getConditionType().getId(), conditionTypeId);
             ConditionTypes conditionTypes = conditionTypeRepository.findById(conditionTypeId)
-                    .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Condition types not found"));
+                    .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Tipo de condição não encontrado"));
             product.setConditionType(conditionTypes);
             verifyVariable = true;
             log.info("[PRODUCT] conditionType updated");
@@ -82,7 +82,7 @@ public class ProductService {
             Long userId = (Long) request.get("user");
             log.info("[PRODUCT] userId {} being updated to {}", product.getUser().getId(), userId);
             User user = userRepository.findById(userId)
-                    .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "User not found"));
+                    .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
             product.setUser(user);
             verifyVariable = true;
             log.info("[PRODUCT] user updated");
@@ -119,7 +119,7 @@ public class ProductService {
         }
         if (!verifyVariable) {
             log.warn("[PRODUCT] None valid field passed.");
-            throw new HttpError(HttpStatus.BAD_REQUEST, "None valid field has been passed.");
+            throw new HttpError(HttpStatus.BAD_REQUEST, "Nenhum campo válido de atualização foi passado.");
         }
 
         log.info("[PRODUCT] Starting attributes validation.");
@@ -142,7 +142,7 @@ public class ProductService {
 
     public void deleteById(String id) throws HttpError {
         productRepository.findById(Long.valueOf(id))
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Product not found"));
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Produto não encontrado"));
         log.info("[PRODUCT] Deleting product");
         productRepository.deleteById(Long.valueOf(id));
         log.info("[PRODUCT] Product deleted");

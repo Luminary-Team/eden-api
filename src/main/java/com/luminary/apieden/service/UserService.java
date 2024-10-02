@@ -42,7 +42,7 @@ public class UserService {
 
     public void partialUpdate(String id, Map<String, Object> request) throws HttpError{
         User user = userRepository.findById(Long.parseLong(id))
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "User not found"));
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
         boolean verifyVariable = false;
         if (request.containsKey("name")) {
             log.info("[USER] Name {} being updated to {}", user.getName(), (String) request.get("name"));
@@ -68,7 +68,7 @@ public class UserService {
         }
         if (!verifyVariable) {
             log.warn("None valid field passed.");
-            throw new HttpError(HttpStatus.BAD_REQUEST, "None valid field has been passed.");
+            throw new HttpError(HttpStatus.BAD_REQUEST, "Nenhum campo válido foi passado.");
         }
 
         log.info("Starting attributes validation.");
@@ -92,33 +92,33 @@ public class UserService {
     private void checkUnique(User user) throws HttpError {
         if (userRepository.findByCpf(user.getCpf()).isPresent()) {
             log.error("Error creating user with Cpf {}, is already registered", user.getCpf());
-            throw new HttpError(HttpStatus.BAD_REQUEST, "Cpf already registered");
+            throw new HttpError(HttpStatus.BAD_REQUEST, "Cpf já está registrado");
         } else if (userRepository.findByEmail(user.getEmail()).isPresent()) {
             log.error("Error creating user with Email {}, is already registered", user.getEmail());
-            throw new HttpError(HttpStatus.BAD_REQUEST, "Email already registered");
+            throw new HttpError(HttpStatus.BAD_REQUEST, "Email já está registrado");
         } else if (userRepository.findByUserName(user.getUserName()).isPresent()) {
             log.error("Error creating user with UserName {}, is already registered", user.getUserName());
-            throw new HttpError(HttpStatus.BAD_REQUEST, "UserName already registered");
+            throw new HttpError(HttpStatus.BAD_REQUEST, "UserName já está registrado");
         } else if (user.getCellphone() != null
                 && userRepository.findByCellphone(user.getCellphone()).isPresent()) {
             log.error("Error creating user with Phone {}, is already registered", user.getCellphone());
-            throw new HttpError(HttpStatus.BAD_REQUEST, "Phone already registered");
+            throw new HttpError(HttpStatus.BAD_REQUEST, "Phone já está registrado");
         }
     }
 
     public User findById(String id) {
         return userRepository.findById(Long.valueOf(id))
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "ID not registered"));
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Id não registrado"));
     }
 
     public User findByCpf(String cpf) {
         return userRepository.findByCpf(cpf)
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Cpf not registered"));
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Cpf não registrado"));
     }
 
     public User findByEmail(String email) {
         return userRepository.findByEmail(email)
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Email not registered"));
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Email não registrado"));
     }
 
     public List<User> findAll() {
@@ -127,7 +127,7 @@ public class UserService {
 
     public TokenResponse token(TokenRequest tokenRequest) throws HttpError {
         User user = userRepository.findByEmail(tokenRequest.getEmail())
-                .orElseThrow(() ->  new HttpError(HttpStatus.BAD_REQUEST, "User not found"));
+                .orElseThrow(() ->  new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
         if (user != null && passwordEncoder.matches(tokenRequest.getPassword(), user.getPassword())) {
             try {
                 String token = Jwts.builder()
@@ -143,7 +143,7 @@ public class UserService {
             }
         } else {
             log.error("Invalid credentials for email: {}", tokenRequest.getEmail());
-            throw new HttpError(HttpStatus.UNAUTHORIZED, "Invalid credentials");
+            throw new HttpError(HttpStatus.UNAUTHORIZED, "Credenciais inválidas");
         }
     }
 
