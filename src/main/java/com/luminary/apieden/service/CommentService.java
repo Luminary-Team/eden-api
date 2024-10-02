@@ -36,11 +36,11 @@ public class CommentService {
         log.info("[COMMENT] Registering comment");
         log.info("[COMMENT] Finding product in database");
         Product product = productRepository.findById(commentRequest.getProductId())
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Product not found"));
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Produto não encontrado"));
         log.info("[COMMENT] Found product");
         log.info("[COMMENT] Finding user in database");
         User user = userRepository.findById(commentRequest.getUserId())
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "User not found"));
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
         log.info("[COMMENT] Found user");
         log.info("[COMMENT] Prepared comment");
         Comment comment = commentMapper.toComment(commentRequest);
@@ -55,7 +55,7 @@ public class CommentService {
 
     public CommentResponse updateComment(String id, UpdateCommentRequest updateCommentRequest) {
         Comment comment = commentRepository.findById(Long.valueOf(id))
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Comment not found"));
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Comentário não encontrado"));
         comment.setComment(updateCommentRequest.getComment());
         commentRepository.save(comment);
         return commentMapper.toCommentResponse(comment);
@@ -63,7 +63,7 @@ public class CommentService {
 
     public void deleteComment(String id) {
         commentRepository.findById(Long.valueOf(id))
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Comment not found"));
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Comentário não encontrado"));
         commentRepository.deleteById(Long.valueOf(id));
     }
 }
