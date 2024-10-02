@@ -8,9 +8,9 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface CardMapper {
-    @Mapping(target = "fkUserId", ignore = true)
+    @Mapping(target = "user", ignore = true)
     Card toCards(CardRequest request);
 
-    @Mapping(source = "fkUserId.id", target = "userId")
+    @Mapping(source = "user.id", target = "userId")
     CardResponse toCardResponse(Card card);
 }

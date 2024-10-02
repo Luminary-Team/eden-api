@@ -23,18 +23,36 @@ public class CardService {
     private final UserRepository userRepository;
     private final CardMapper cardMapper;
 
-    public List<CardResponse> findByUserId(User userId) {
-        List<Card> cardList = cardRepository.findByUser(userId);
-        return cardList.stream()
-                .map(cardMapper::toCardResponse)
-                .toList();
+    public List<CardResponse> findByUserId(String userId) {
+        try {
+            List<Card> cardList = cardRepository.findById(Long.parseLong(userId));
+            return cardList.stream()
+                    .map(cardMapper::toCardResponse)
+                    .toList();
+        } catch (NullPointerException npe) {
+            return List.of();
+        }
     }
 
     public Card registerCard(CardRequest cardRequest) {
         log.info("[CARDS] Registering card");
+
+        // Validação do CVV | CVC | Validade
+        if (cardRequest.getCvv().length() != 3) {
+            log.error("[CARDS] CVV com comprimento inválido");
+            throw new HttpError(HttpStatus.BAD_REQUEST, "CVV deve conter exatamente 3 caracteres.");
+        } else if (cardRequest.getCvc().length() != 3) {
+            log.error("[CARDS] CVC com comprimento inválido");
+            throw new HttpError(HttpStatus.BAD_REQUEST, "CVC deve conter exatamente 3 caracteres.");
+        } else if (cardRequest.getValidity().length() != 5) {
+            log.error("[CARDS] Validade com comprimento inválido");
+            throw new HttpError(HttpStatus.BAD_REQUEST, "Validade deve conter exatamente 5 caracteres.");
+        }
+
         log.info("[CARDS] Finding user in database");
         User user = userRepository.findById(cardRequest.getUserId())
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "User not found"));
+
         log.info("[CARDS] Found user");
         log.info("[CARDS] Prepared card");
         Card cards = cardMapper.toCards(cardRequest);
@@ -43,12 +61,15 @@ public class CardService {
         log.info("[CARDS] Persisting card in database");
         cardRepository.save(cards);
         log.info("[CARDS] Card persisted in database");
+
         return cards;
     }
 
     public void deleteCard(String id) {
         cardRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Card not found"));
+
+        log.info("[CARDS] Deleting card");
         cardRepository.deleteById(Long.valueOf(id));
     }
 }

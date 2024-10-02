@@ -19,10 +19,10 @@ import java.util.List;
 public class CardController {
     private final CardService cardService;
 
-//    @GetMapping("/user/{id}")
-//    public ResponseEntity<List<CardResponse>> findByUserId(@PathVariable User user) {
-//        return ResponseEntity.status(HttpStatus.OK).body(cardService.findByUserId(user));
-//    }
+    @GetMapping("/user/{id}")
+    public ResponseEntity<List<CardResponse>> findByUserId(@PathVariable String id) {
+        return ResponseEntity.status(HttpStatus.OK).body(cardService.findByUserId(id));
+    }
 
     @PostMapping("/")
     public ResponseEntity<Card> register(@RequestBody @Valid CardRequest cardRequest) {

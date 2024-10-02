@@ -39,6 +39,7 @@ public class Card {
     private String cvc;
 
     @Column(name = "validity")
+    @Size(message = "The 'validity' must have not pass the 5 digits limit", min = 5, max = 5)
     @NotNull(message = "The 'validity' field must be passed")
     private String validity;
 

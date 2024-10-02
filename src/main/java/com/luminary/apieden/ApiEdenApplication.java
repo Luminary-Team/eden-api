@@ -11,7 +11,6 @@ import org.springframework.context.annotation.ComponentScan;
 		title = "Api Eden",
 		description = "Api com as operações básicas de banco de dados do Eden",
 		version = "1"))
-@ComponentScan(basePackages = {"com.luminary.apieden"})
 public class ApiEdenApplication {
 
 	public static void main(String[] args) {
