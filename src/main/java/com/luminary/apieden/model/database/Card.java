@@ -1,15 +1,24 @@
 package com.luminary.apieden.model.database;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
 @Entity
 @Table(name = "cards")
 public class Card {
@@ -42,13 +51,4 @@ public class Card {
     @Size(message = "The 'validity' must have not pass the 5 digits limit", min = 5, max = 5)
     @NotNull(message = "The 'validity' field must be passed")
     private String validity;
-
-    public Card(String cardNumber, String cvv, String cvc, String validity) {
-        this.cardNumber = cardNumber;
-        this.cvv = cvv;
-        this.cvc = cvc;
-        this.validity = validity;
-    }
-
-    public Card() {}
 }
