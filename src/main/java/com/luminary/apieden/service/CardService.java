@@ -51,7 +51,7 @@ public class CardService {
 
         log.info("[CARDS] Finding user in database");
         User user = userRepository.findById(cardRequest.getUserId())
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "User not found"));
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
 
         log.info("[CARDS] Found user");
         log.info("[CARDS] Prepared card");
@@ -67,7 +67,7 @@ public class CardService {
 
     public void deleteCard(String id) {
         cardRepository.findById(Long.valueOf(id))
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Card not found"));
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Cartão não encontrado"));
 
         log.info("[CARDS] Deleting card");
         cardRepository.deleteById(Long.valueOf(id));
