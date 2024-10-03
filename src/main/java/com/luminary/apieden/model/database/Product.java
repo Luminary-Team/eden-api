@@ -39,54 +39,50 @@ public class Product {
 
     @ManyToOne
     @JoinColumn(name = "fk_usage_time_id", nullable = false)
-    @NotNull(message = "The 'usageTime' field must be passed")
+    @NotNull(message = "O campo 'usageTime' precisa ser passado")
     @Schema(name = "usageTime", description = "ID of the corresponding usage time", example = "1")
     private UsageTime usageTime;
 
     @ManyToOne
     @JoinColumn(name = "fk_condition_type_id", nullable = false)
-    @NotNull(message = "The 'conditionType' field must be passed")
+    @NotNull(message = "O campo 'conditionType' precisa ser passado")
     @Schema(name = "conditionType", description = "ID of the corresponding condition type", example = "1")
     private ConditionTypes conditionType;
 
     @ManyToOne
     @JoinColumn(name = "fk_user_id", nullable = false)
-    @NotNull(message = "The 'user' field must be passed")
+    @NotNull(message = "O campo 'user' precisa ser passado")
     @Schema(name = "user", description = "The information about the user responsible for the creation of the user", implementation = User.class)
     private User user;
 
     @Column(name = "title", nullable = false, unique = true)
-    @NotBlank(message = "The 'title' field mustn't be blank")
-    @Size(message = "The 'title' can't pass 45 digits", max = 45)
+    @NotBlank(message = "O campo 'title' não pode ser vazio")
+    @Size(message = "O campo 'title' não pode passar de 45 caracteres", max = 45)
     @Schema(name = "title", description = "Title of the product", example = "PC Gamer")
     private String title;
 
     @Column(name = "description", nullable = false)
-    @NotBlank(message = "The 'description' field mustn't be blank")
-    @Size(message = "The 'description' can't pass 90 digits", max = 90)
+    @NotBlank(message = "O campo 'description' precisa ser passado")
+    @Size(message = "O campo 'usageTime' não pode passar de 45 caracteres", max = 90)
     @Schema(name = "description", description = "Description of the product", example = "")
     private String description;
 
     @Column(name = "price", nullable = false)
-    @NotNull(message = "The 'price' field must be passed")
-    @Min(message = "Minimum price cannot be that lower", value = 1)
+    @NotNull(message = "O campo 'price' precisa ser passado")
+    @Min(message = "O campo 'price' precisa ter seu valor acima de 0", value = 0)
     private float price;
 
     @Column(name = "max_price", nullable = false)
-    @Min(message = "Minimum maxPrice cannot be that lower", value = 0)
+    @Min(message = "O campo 'maxPrice' não pode ser menor que 0", value = 0)
     private float maxPrice;
 
     @Column(name = "sender_zip_code", nullable = false)
-    @NotBlank(message = "The 'senderZipCode' mustn't be blank")
-    @Size(message = "The 'senderZipCode' must have 8 digits", min = 8, max = 8)
+    @NotBlank(message = "O campo 'senderZipCode' não pode ser vazio")
+    @Size(message = "O campo 'senderZipCode' precisa ter exatamente 8 caracteres", min = 8, max = 8)
     private String senderZipCode;
 
     @Column(name = "rating")
-    @NotNull(message = "The 'rating' field must be passed")
+    @NotNull(message = "O campo 'rating' precisa ser passado")
+    @Min(message = "O campo 'rating' não pode ser abaixo de 0", value = 0)
     private float rating;
-
-    @Column(name = "stock")
-    @NotNull(message = "The 'stock' field must be passed")
-    @Min(message = "Stock cannot be negative", value = 0)
-    private int stock;
 }
