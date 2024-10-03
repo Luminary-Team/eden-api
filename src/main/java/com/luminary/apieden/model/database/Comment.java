@@ -29,19 +29,19 @@ public class Comment {
 
     @ManyToOne
     @JoinColumn(name = "fk_product_id", nullable = false)
-    @NotNull(message = "The 'product' field must be passed")
+    @NotNull(message = "O campo 'product' precisa ser passado")
     @Schema(name = "product", description = "The comment's respective product")
     private Product product;
 
     @ManyToOne
     @JoinColumn(name = "fk_user_id")
-    @NotNull(message = "The 'user' field must be passed")
+    @NotNull(message = "O campo 'product' precisa ser passado")
     @Schema(name = "user", description = "The comment's respective user")
     private User user;
 
     @Column(name = "comment")
-    @NotNull(message = "The 'comment' field mustn't be passed")
-    @Size(message = "The 'comment' must have not pass the 90 digits limit", max = 90)
+    @NotNull(message = "O campo 'comment' precisa ser passado")
+    @Size(message = "O campo 'comment' não pode ultrapassar o limite 90 caracteres", max = 90)
     @Schema(name = "comment", description = "The respective comment", example = "Celular ultra potente")
     private String comment;
 }

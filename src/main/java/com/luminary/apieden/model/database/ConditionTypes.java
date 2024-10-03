@@ -7,7 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,12 +27,12 @@ public class ConditionTypes {
     private long id;
 
     @Column(name = "type")
-    @NotNull
+    @NotBlank(message = "O campo 'type' não pode ser vazio")
     @Schema(name = "type", description = "What type does the respective ID corresponds to", example = "novo")
     private String type;
 
     @Column(name = "description")
-    @NotNull
+    @NotBlank(message = "O campo 'description' não pode ser vazio")
     @Schema(name = "description", description = "What is the condition type description", example = "Aparelho em ótimo estado")
     private String description;
 }
