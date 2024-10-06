@@ -7,8 +7,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Email;
 import org.hibernate.validator.constraints.br.CPF;
@@ -56,16 +57,19 @@ public class User {
 
     @Column(name = "password")
     @NotBlank(message = "O campo 'password' deve ser passado")
+    @Size(message = "'password' passa do limite de 100 caracteres", max = 100)
     @Schema(name = "password", description = "The password of the user", example = "megaSenha@123")
     private String password;
 
     @Column(name = "rating")
+    @Max(message = "O campo 'rating' não pode ser acima de 5", value = 5)
+    @Min(message = "O campo 'rating' não pode ser abaixo de 0", value = 0)
     @Schema(name = "rating", description = "The rating of the user", example = "3.5")
     private float rating;
 
     @Column(name = "email", nullable = false, unique = true)
-    @NotBlank(message = "O campo 'email' deve ser passado")
     @Email(message = "O campo 'email' é inválido")
+    @NotBlank(message = "O campo 'email' deve ser passado")
     @Size(message = "Email ultrapassa o limite máximo", max = 90)
     @Schema(name = "email", description = "The email of the user", example = "pedro.pedro@mail.com")
     private String email;
