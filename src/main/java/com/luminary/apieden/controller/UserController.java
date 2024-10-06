@@ -41,8 +41,8 @@ public class UserController implements UserContract {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
     }
 
-    @GetMapping("/findByParam")
-    public ResponseEntity<User> findUserByParameter(
+    @GetMapping("/getParam")
+    public ResponseEntity<User> getParam(
                                             @RequestParam(value = "id", required = false) String id,
                                             @RequestParam(value = "cpf", required = false) String cpf,
                                             @RequestParam(value = "email", required = false) String email) {
