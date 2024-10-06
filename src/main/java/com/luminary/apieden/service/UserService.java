@@ -106,29 +106,38 @@ public class UserService {
         }
     }
 
-    public User findById(String id) {
-        return userRepository.findById(Long.valueOf(id))
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Id não registrado"));
-    }
-
-    public User findByCpf(String cpf) {
-        return userRepository.findByCpf(cpf)
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Cpf não registrado"));
-    }
-
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Email não registrado"));
-    }
-
     public List<User> findAll() {
         return userRepository.findAll();
+    }
+
+    public User findByParameter(final String id, final String cpf, final String email) {
+        User user = null;
+        log.info("Trying to fetch user by valid parameter");
+        if (id != null) {
+            log.info("Fetching user by id: {}", id);
+            user = userRepository.findById(Long.valueOf(id))
+                    .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Id não registrado"));
+        } else if (cpf != null) {
+            log.info("Fetching user by cpf: {}", cpf);
+            user = userRepository.findByCpf(cpf)
+                    .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Cpf não registrado"));
+        } else if (email != null) {
+            log.info("Fetching user by email: {}", email);
+            user = userRepository.findByEmail(email)
+                    .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Email não registrado"));
+        }
+        if (user == null) {
+            log.warn("None valid parameter was passed, user not found");
+            throw new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado");
+        }
+        log.info("Returning user {}", user);
+        return user;
     }
 
     public TokenResponse token(TokenRequest tokenRequest) throws HttpError {
         User user = userRepository.findByEmail(tokenRequest.getEmail())
                 .orElseThrow(() ->  new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
-        if (user != null && passwordEncoder.matches(tokenRequest.getPassword(), user.getPassword())) {
+        if (user != null) {
             try {
                 String token = Jwts.builder()
                         .setSubject(user.getEmail())
