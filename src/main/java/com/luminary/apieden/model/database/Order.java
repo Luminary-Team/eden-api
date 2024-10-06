@@ -26,8 +26,7 @@ public class Order {
     @Schema(hidden = true)
     private long id;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_payment_types")
+    @Column(name = "fk_payment_types")
     @NotNull(message = "O campo 'paymentType' precisa ser passado")
-    private PaymentType paymentType;
+    private long paymentType;
 }

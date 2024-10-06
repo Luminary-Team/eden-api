@@ -63,11 +63,11 @@ public class Product {
     @Column(name = "price", nullable = false)
     @NotNull(message = "O campo 'price' precisa ser passado")
     @Min(message = "O campo 'price' precisa ter seu valor acima de 0", value = 0)
-    private float price;
+    private double price;
 
     @Column(name = "max_price", nullable = false)
     @Min(message = "O campo 'maxPrice' não pode ser menor que 0", value = 0)
-    private float maxPrice;
+    private double maxPrice;
 
     @Column(name = "sender_zip_code", nullable = false)
     @NotBlank(message = "O campo 'senderZipCode' não pode ser vazio")
@@ -77,5 +77,5 @@ public class Product {
     @Column(name = "rating")
     @NotNull(message = "O campo 'rating' precisa ser passado")
     @Min(message = "O campo 'rating' não pode ser abaixo de 0", value = 0)
-    private float rating;
+    private double rating;
 }

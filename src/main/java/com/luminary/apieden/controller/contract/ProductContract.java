@@ -53,7 +53,7 @@ public interface ProductContract {
     })
     @Parameter(name = "id", description = "Id of the product to be updated")
     @RequestBody(content = @Content(schema = @Schema(implementation = MapExample.class)))
-    public ResponseEntity<Map<String, Object>> partialUpdate(String id, Map<String, Object> request);
+    public ResponseEntity<Void> partialUpdate(String id, Map<String, Object> request);
 
     @Operation(summary = "Delete product", description = "Delete product by ID")
     @ApiResponses(value = {

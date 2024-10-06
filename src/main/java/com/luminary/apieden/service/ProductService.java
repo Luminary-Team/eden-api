@@ -67,68 +67,63 @@ public class ProductService {
         Product product = productRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Produto não encontrado"));
         boolean verifyVariable = false;
-        if (request.containsKey("usageTimeId")) {
-            Long usageTimeId = (Long) request.get("usageTimeId");
-            log.info("[PRODUCT] usageTime {} being updated to {}", product.getUsageTimeId(), usageTimeId);
-            usageTimeRepository.findById(usageTimeId)
-                            .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "'Tempo de uso' não encontrado"));
-            product.setUsageTimeId(usageTimeId);
-            verifyVariable = true;
-            log.info("[PRODUCT] usageTime updated");
-        }
-        if (request.containsKey("conditionTypeId")) {
-            Long conditionTypeId = (Long) request.get("conditionTypeId");
-            log.info("[PRODUCT] conditionType {} being updated to {}", product.getConditionTypeId(), conditionTypeId);
-            conditionTypeRepository.findById(conditionTypeId)
-                    .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "'Tipo de condição' não encontrado"));
-            product.setConditionTypeId(conditionTypeId);
-            verifyVariable = true;
-            log.info("[PRODUCT] conditionType updated");
-        }
-        if (request.containsKey("userId")) {
-            Long userId = (Long) request.get("userId");
-            log.info("[PRODUCT] userId {} being updated to {}", product.getUserId(), userId);
-            userRepository.findById(userId)
-                    .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
-            product.setUserId(userId);
-            verifyVariable = true;
-            log.info("[PRODUCT] User updated");
-        }
-        if (request.containsKey("title")) {
-            log.info("[PRODUCT] Title {} being updated to {}", product.getTitle(), (String) request.get("title"));
-            product.setTitle((String) request.get("title"));
-            verifyVariable = true;
-            log.info("[PRODUCT] Title updated");
-        }
-        if (request.containsKey("description")) {
-            log.info("[PRODUCT] Description {} being updated to {}", product.getDescription(), (String) request.get("description"));
-            product.setDescription((String) request.get("description"));
-            verifyVariable = true;
-            log.info("[PRODUCT] Description updated");
-        }
-        if (request.containsKey("price")) {
-            log.info("[PRODUCT] Price being updated.");
-            product.setPrice((Float) request.get("price"));
-            verifyVariable = true;
-            log.info("[PRODUCT] price updated");
-        }
-        if (request.containsKey("maxPrice")) {
-            log.info("[PRODUCT] Max price {} being updated to {}", product.getMaxPrice(), (Float) request.get("maxPrice"));
-            product.setMaxPrice((Float) request.get("maxPrice"));
-            verifyVariable = true;
-            log.info("[PRODUCT] Max price updated");
-        }
-        if (request.containsKey("senderZipCode")) {
-            log.info("[PRODUCT] Sender zip code {} being updated to {}", product.getSenderZipCode(), (String) request.get("senderZipCode"));
-            product.setSenderZipCode((String) request.get("senderZipCode"));
-            verifyVariable = true;
-            log.info("[PRODUCT] Sender zip code updated");
-        }
-        if (request.containsKey("rating")) {
-            log.info("[PRODUCT] Rating {} being updated to {}", product.getSenderZipCode(), (String) request.get("senderZipCode"));
-            product.setRating((Float) request.get("rating"));
-            verifyVariable = true;
-            log.info("[PRODUCT] Rating updated");
+        try {
+            if (request.containsKey("usageTimeId")) {
+                Long usageTimeId = Long.valueOf((Integer) request.get("usageTimeId"));
+                log.info("[PRODUCT] usageTime {} being updated to {}", product.getUsageTimeId(), usageTimeId);
+                usageTimeRepository.findById(usageTimeId)
+                        .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "'Tempo de uso' não encontrado"));
+                product.setUsageTimeId(usageTimeId);
+                verifyVariable = true;
+                log.info("[PRODUCT] usageTime updated");
+            }
+            if (request.containsKey("conditionTypeId")) {
+                Long conditionTypeId = Long.valueOf((Integer) request.get("conditionTypeId"));
+                log.info("[PRODUCT] conditionType {} being updated to {}", product.getConditionTypeId(), conditionTypeId);
+                conditionTypeRepository.findById(conditionTypeId)
+                        .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "'Tipo de condição' não encontrado"));
+                product.setConditionTypeId(conditionTypeId);
+                verifyVariable = true;
+                log.info("[PRODUCT] conditionType updated");
+            }
+            if (request.containsKey("title")) {
+                log.info("[PRODUCT] Title {} being updated to {}", product.getTitle(), (String) request.get("title"));
+                product.setTitle((String) request.get("title"));
+                verifyVariable = true;
+                log.info("[PRODUCT] Title updated");
+            }
+            if (request.containsKey("description")) {
+                log.info("[PRODUCT] Description {} being updated to {}", product.getDescription(), (String) request.get("description"));
+                product.setDescription((String) request.get("description"));
+                verifyVariable = true;
+                log.info("[PRODUCT] Description updated");
+            }
+            if (request.containsKey("price")) {
+                log.info("[PRODUCT] Price being updated.");
+                product.setPrice((Double) request.get("price"));
+                verifyVariable = true;
+                log.info("[PRODUCT] price updated");
+            }
+            if (request.containsKey("maxPrice")) {
+                log.info("[PRODUCT] Max price {} being updated to {}", product.getMaxPrice(), (Float) request.get("maxPrice"));
+                product.setMaxPrice((Double) request.get("maxPrice"));
+                verifyVariable = true;
+                log.info("[PRODUCT] Max price updated");
+            }
+            if (request.containsKey("senderZipCode")) {
+                log.info("[PRODUCT] Sender zip code {} being updated to {}", product.getSenderZipCode(), (String) request.get("senderZipCode"));
+                product.setSenderZipCode((String) request.get("senderZipCode"));
+                verifyVariable = true;
+                log.info("[PRODUCT] Sender zip code updated");
+            }
+            if (request.containsKey("rating")) {
+                log.info("[PRODUCT] Rating {} being updated to {}", product.getSenderZipCode(), (String) request.get("senderZipCode"));
+                product.setRating((Double) request.get("rating"));
+                verifyVariable = true;
+                log.info("[PRODUCT] Rating updated");
+            }
+        } catch (ClassCastException clc) {
+            throw new HttpError(HttpStatus.BAD_REQUEST, "Problema ao receber número, por favor, insira o '.' ao número(ex. 2.0)");
         }
         if (!verifyVariable) {
             log.warn("[PRODUCT] None valid field passed.");

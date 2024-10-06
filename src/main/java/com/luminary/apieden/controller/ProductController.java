@@ -52,9 +52,9 @@ public class ProductController implements ProductContract {
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<Map<String, Object>> partialUpdate(@PathVariable String id, @RequestBody Map<String, Object> request) {
+    public ResponseEntity<Void> partialUpdate(@PathVariable String id, @RequestBody Map<String, Object> request) {
         productService.partialUpdate(id, request);
-        return ResponseEntity.status(HttpStatus.OK).body(request);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @DeleteMapping("/delete/{id}")
