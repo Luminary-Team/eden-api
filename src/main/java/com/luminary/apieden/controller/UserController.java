@@ -41,29 +41,12 @@ public class UserController implements UserContract {
         return ResponseEntity.status(HttpStatus.OK).body(userService.findAll());
     }
 
-    @GetMapping("/getParam")
-    public ResponseEntity<User> findUserById(
-                                            @RequestParam(value = "userId", required = false) String userId,
+    @GetMapping("/findByParam")
+    public ResponseEntity<User> findUserByParameter(
+                                            @RequestParam(value = "id", required = false) String id,
                                             @RequestParam(value = "cpf", required = false) String cpf,
                                             @RequestParam(value = "email", required = false) String email) {
-        User user = null;
-        log.info("Trying to fetch user by valid parameter");
-        if (userId != null) {
-            log.info("Fetching user by id: {}", userId);
-            user = userService.findById(userId);
-        } else if (cpf != null) {
-            log.info("Fetching user by cpf: {}", cpf);
-            user = userService.findByCpf(cpf);
-        } else if (email != null) {
-            log.info("Fetching user by email: {}", email);
-            user = userService.findByEmail(email);
-        }
-        if (user == null) {
-            log.warn("None valid parameter was passed, user not found");
-            throw new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado");
-        }
-        log.info("Returning user");
-        return ResponseEntity.status(HttpStatus.OK).body(user);
+        return ResponseEntity.status(HttpStatus.OK).body(userService.findByParameter(id, cpf, email));
     }
 
     @PostMapping("/register")
