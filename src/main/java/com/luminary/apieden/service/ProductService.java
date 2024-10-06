@@ -155,6 +155,7 @@ public class ProductService {
     }
 
     public void deleteById(String id) throws HttpError {
+        log.info("Deleting product {}", id);
         productRepository.findById(Long.valueOf(id))
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Produto não encontrado"));
         log.info("[PRODUCT] Deleting product");
