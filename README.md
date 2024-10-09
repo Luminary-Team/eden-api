@@ -33,6 +33,7 @@
   <li>Config</li>
   <li>Controller</li>
   <li>Filter</li>
+  <li>Mapper</li>
   <li>Model</li>
   <li>Repository</li>
   <li>Service</li>
@@ -48,5 +49,5 @@
 <hr>
 
 <p align="center">
-  <strong>Desenvolvido por Pedro Moisés Araujo de Gusmão</strong>
+  <strong>Desenvolvido por Pedro Moisés Araujo de Gusmão e Enzo Seiji Delgado Tabuchi</strong>
 </p>
