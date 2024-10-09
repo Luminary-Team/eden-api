@@ -51,11 +51,10 @@ public interface UserContract {
             @ApiResponse(responseCode = "500", description = "Internal server error",
                     content = @Content)
     })
-    @Parameter(name = "Authorization", description = "token given by '/login' ")
-    @Parameter(name = "userId", example = "18",  description = "The id of the user")
+    @Parameter(name = "id", example = "18",  description = "The id of the user")
     @Parameter(name = "cpf", example = "42391552076", description = "The Cpf of the user")
     @Parameter(name = "email", example = "pedro.pedro@mail.com", description = "The email of the user")
-    public ResponseEntity<UserResponse> findUserById(String userId, String cpf, String email);
+    public ResponseEntity<User> getParam(String id, String cpf, String email);
 
     @Operation(summary = "Register user in database(requires token)", description = "Register an user in database")
     @ApiResponses(value = {
