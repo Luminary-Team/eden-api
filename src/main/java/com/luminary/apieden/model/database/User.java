@@ -10,6 +10,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import jakarta.validation.constraints.Email;
 import org.hibernate.validator.constraints.br.CPF;
@@ -73,7 +74,8 @@ public class User {
     @Schema(name = "email", description = "The email of the user", example = "pedro.pedro@mail.com")
     private String email;
 
-    @Column(name = "cellphone", unique = true)
+    @Column(name = "cellphone", nullable = false, unique = true)
+    @NotNull(message = "O campo 'cellphone' deve ser passado")
     @Size(message = "O campo 'cellphone' tem que ter 11 digítos", min = 11, max = 11)
     @Schema(name = "cellphone", description = "The phone of the user", example = "11400289220")
     private String cellphone;
