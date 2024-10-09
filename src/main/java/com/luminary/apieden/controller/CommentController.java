@@ -37,13 +37,6 @@ public class CommentController implements CommentContract {
         return ResponseEntity.status(HttpStatus.CREATED).body(commentService.register(commentRequest));
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<CommentResponse> updateComment(
-            @PathVariable String id,
-            @RequestBody @Valid UpdateCommentRequest updateCommentRequest) {
-        return ResponseEntity.status(HttpStatus.OK).body(commentService.updateComment(id, updateCommentRequest));
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteComment(@PathVariable String id) {
         commentService.deleteComment(id);

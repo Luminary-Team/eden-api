@@ -30,7 +30,6 @@ import lombok.ToString;
 @Table(name = "users")
 @Schema(name = "UserSchema", description = "Schema of users")
 public class User {
-
     @Id
     @Column(name = "pk_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
