@@ -9,7 +9,7 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootApplication
 @OpenAPIDefinition(info = @Info(
 		title = "Api Eden",
-		description = "Api com as operações básicas de banco de dados do Eden",
+		description = "Api with basic operations from the database of Eden",
 		version = "1"))
 public class ApiEdenApplication {
 

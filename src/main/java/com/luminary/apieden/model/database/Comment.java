@@ -7,8 +7,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -27,20 +26,18 @@ public class Comment {
     @Schema(hidden = true)
     private long id;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_product_id", nullable = false)
+    @Column(name = "fk_product_id")
     @NotNull(message = "O campo 'product' precisa ser passado")
     @Schema(name = "product", description = "The comment's respective product")
-    private Product product;
+    private long productId;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_user_id")
-    @NotNull(message = "O campo 'product' precisa ser passado")
+    @Column(name = "fk_user_id")
+    @NotNull(message = "O campo 'user' precisa ser passado")
     @Schema(name = "user", description = "The comment's respective user")
-    private User user;
+    private long userId;
 
     @Column(name = "comment")
-    @NotNull(message = "O campo 'comment' precisa ser passado")
+    @NotBlank(message = "O campo 'comment' precisa ser passado")
     @Size(message = "O campo 'comment' não pode ultrapassar o limite 90 caracteres", max = 90)
     @Schema(name = "comment", description = "The respective comment", example = "Celular ultra potente")
     private String comment;

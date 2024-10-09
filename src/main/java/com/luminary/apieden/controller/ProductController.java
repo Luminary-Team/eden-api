@@ -2,14 +2,10 @@ package com.luminary.apieden.controller;
 
 import com.luminary.apieden.controller.contract.ProductContract;
 import com.luminary.apieden.model.database.Product;
-import com.luminary.apieden.model.exception.HttpError;
 import com.luminary.apieden.model.request.ProductRequest;
-import com.luminary.apieden.model.response.ErrorResponse;
 import com.luminary.apieden.service.ProductService;
-import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,16 +24,21 @@ import java.util.Map;
 @RestController
 @RequestMapping("/product")
 @RequiredArgsConstructor
-@Slf4j
 public class ProductController implements ProductContract {
     private final ProductService productService;
 
-    @GetMapping("/findAll")
+    @GetMapping("/getAll")
     public ResponseEntity<List<Product>> findProducts() {
         return ResponseEntity.status(HttpStatus.OK).body(productService.findAll());
     }
 
-    @GetMapping("/findByTitle")
+    @GetMapping("/getByUserId/{userId}")
+    public ResponseEntity<List<Product>> findProductByUserId(@PathVariable String userId) {
+        List<Product> productList = productService.findProductByUserId(userId);
+        return ResponseEntity.status(HttpStatus.OK).body(productList);
+    }
+
+    @GetMapping("/getByTitle")
     public ResponseEntity<List<Product>> findProductByTitleLike(
             @RequestParam("title") String title) {
         List<Product> productList = productService.findProductByTitleLike(title);
@@ -46,22 +47,18 @@ public class ProductController implements ProductContract {
 
     @PostMapping("/register")
     public ResponseEntity<Product> register(@RequestBody @Valid ProductRequest productRequest) {
-        log.info("Registering product");
         Product product = productService.register(productRequest);
-        log.info("Product registered with success: {}", product);
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
     @PatchMapping("/update/{id}")
-    public ResponseEntity<Map<String, Object>> partialUpdate(@PathVariable String id, @RequestBody Map<String, Object> request) {
-        log.info("Entering in partialUpdate method.");
+    public ResponseEntity<Void> partialUpdate(@PathVariable String id, @RequestBody Map<String, Object> request) {
         productService.partialUpdate(id, request);
-        return ResponseEntity.status(HttpStatus.OK).body(request);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable String id) {
-        log.info("Deleting product {}", id);
         productService.deleteById(id);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }

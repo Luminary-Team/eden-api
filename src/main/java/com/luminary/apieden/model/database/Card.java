@@ -5,9 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -28,27 +27,27 @@ public class Card {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_user_id", nullable = false)
-    @NotNull(message = "The 'fkUserId' field must be passed")
-    private User user;
+    @Column(name = "fk_user_id")
+    @NotNull(message = "O campo 'userId' precisa ser passado")
+    private long userId;
 
     @Column(name = "card_number")
-    @NotNull(message = "The 'cardNumber' field must be passed")
+    @NotBlank(message = "O campo 'cardNumber' precisa ser passado")
+    @Size(message = "O campo 'cardNumber' precisa ter 16 caracteres", min = 16, max = 16)
     private String cardNumber;
 
     @Column(name = "cvv")
-    @Size(message = "The 'cvv' must have not pass the 3 digits limit", min = 3, max = 3)
-    @NotNull(message = "The 'cvv' field must be passed")
+    @NotBlank(message = "O campo 'cvv' precisa ser passado")
+    @Size(message = "O campo 'cvv' precisa ter 3 caracteres", min = 3, max = 3)
     private String cvv;
 
     @Column(name = "cvc")
-    @Size(message = "The 'cvc' must have not pass the 3 digits limit", min = 3, max = 3)
-    @NotNull(message = "The 'cvc' field must be passed")
+    @NotBlank(message = "O campo 'cvc' precisa ser passado")
+    @Size(message = "O campo 'cvc' precisa ter 3 caracteres", min = 3, max = 3)
     private String cvc;
 
     @Column(name = "validity")
-    @Size(message = "The 'validity' must have not pass the 5 digits limit", min = 5, max = 5)
-    @NotNull(message = "The 'validity' field must be passed")
+    @NotBlank(message = "O campo 'validity' precisa ser passado")
+    @Size(message = "O campo 'validity' precisa ter 5 caracteres", min = 5, max = 5)
     private String validity;
 }

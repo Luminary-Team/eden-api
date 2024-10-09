@@ -1,9 +1,10 @@
 package com.luminary.apieden.controller.contract;
 
 import com.luminary.apieden.model.database.User;
-import com.luminary.apieden.model.response.ErrorResponse;
 import com.luminary.apieden.model.request.TokenRequest;
+import com.luminary.apieden.model.response.ErrorResponse;
 import com.luminary.apieden.model.response.TokenResponse;
+import com.luminary.apieden.model.response.UserResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,7 +29,7 @@ public interface UserContract {
             @ApiResponse(responseCode = "403", description = "Access Denied",
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
-    public TokenResponse token(final TokenRequest tokenRequest);
+    public ResponseEntity<TokenResponse> token(TokenRequest tokenRequest);
 
     @Operation(summary = "Return all users(requires token)", description = "Return all users registered in the database(requires token)", deprecated = true)
     @ApiResponses(value = {
@@ -64,7 +65,7 @@ public interface UserContract {
             @ApiResponse(responseCode = "500", description = "Internal Server Error",
                     content = @Content)
     })
-    public ResponseEntity<User> register(User userRequest);
+    public ResponseEntity<UserResponse> register(User userRequest);
 
     @Operation(summary = "Update user", description = "Update user based on the passed attributes", deprecated = true)
     @ApiResponses(value = {

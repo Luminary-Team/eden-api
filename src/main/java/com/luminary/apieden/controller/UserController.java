@@ -5,6 +5,7 @@ import com.luminary.apieden.model.exception.HttpError;
 import com.luminary.apieden.model.database.User;
 import com.luminary.apieden.model.request.TokenRequest;
 import com.luminary.apieden.model.response.TokenResponse;
+import com.luminary.apieden.model.response.UserResponse;
 import com.luminary.apieden.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +33,8 @@ public class UserController implements UserContract {
     private final UserService userService;
 
     @PostMapping("/token")
-    public TokenResponse token(@RequestBody final TokenRequest tokenRequest) {
-        return userService.token(tokenRequest);
+    public ResponseEntity<TokenResponse> token(@RequestBody final TokenRequest tokenRequest) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(userService.token(tokenRequest));
     }
 
     @GetMapping("/getAll")
@@ -50,12 +51,12 @@ public class UserController implements UserContract {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<User> register(@RequestBody @Valid User userRequest) {
+    public ResponseEntity<UserResponse> register(@RequestBody @Valid User userRequest) {
         log.info("Attempting to save user in database");
-        User user = userService.register(userRequest);
+        UserResponse userResponse = userService.register(userRequest);
         log.info("Saved user in database");
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(user);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
     }
 
     @PatchMapping("/update/{id}")

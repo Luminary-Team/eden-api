@@ -1,9 +1,13 @@
 package com.luminary.apieden.service;
 
+import com.luminary.apieden.mapper.UserMapper;
+import com.luminary.apieden.model.database.Cart;
 import com.luminary.apieden.model.database.User;
 import com.luminary.apieden.model.exception.HttpError;
 import com.luminary.apieden.model.request.TokenRequest;
 import com.luminary.apieden.model.response.TokenResponse;
+import com.luminary.apieden.model.response.UserResponse;
+import com.luminary.apieden.repository.CartRepository;
 import com.luminary.apieden.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -31,13 +35,19 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final SecretKey secretKey;
     private final UserRepository userRepository;
+    private final CartRepository cartRepository;
+    private final UserMapper userMapper;
 
-    public User register(User user) throws HttpError {
+    public UserResponse register(User user) throws HttpError {
         log.info("Checking unique fields");
         checkUnique(user);
         log.info("None unique field repeated");
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        return userRepository.save(user);
+        userRepository.save(user);
+        Cart cart = cartRepository.save(Cart.builder()
+                .userId(user.getId())
+                .build());
+        return userMapper.toUserResponse(user, cart);
     }
 
     public void partialUpdate(String id, Map<String, Object> request) throws HttpError{
@@ -104,6 +114,27 @@ public class UserService {
             log.error("Error creating user with Phone {}, is already registered", user.getCellphone());
             throw new HttpError(HttpStatus.BAD_REQUEST, "Phone já está registrado");
         }
+    }
+
+    public UserResponse findById(String id) {
+        User user = userRepository.findById(Long.valueOf(id))
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Id não registrado"));
+        Cart cart = cartRepository.findByUserId(Long.parseLong(id));
+        return userMapper.toUserResponse(user, cart);
+    }
+
+    public UserResponse findByCpf(String cpf) {
+        User user = userRepository.findByCpf(cpf)
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Cpf não registrado"));
+        Cart cart = cartRepository.findByUserId(user.getId());
+        return userMapper.toUserResponse(user, cart);
+    }
+
+    public UserResponse findByEmail(String email) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Email não registrado"));
+        Cart cart = cartRepository.findByUserId(user.getId());
+        return userMapper.toUserResponse(user, cart);
     }
 
     public List<User> findAll() {

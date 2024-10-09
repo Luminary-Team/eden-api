@@ -56,7 +56,6 @@ public class CardService {
         log.info("[CARDS] Found user");
         log.info("[CARDS] Prepared card");
         Card cards = cardMapper.toCards(cardRequest);
-        cards.setUser(user);
         log.info("[CARDS] Card prepared");
         log.info("[CARDS] Persisting card in database");
         cardRepository.save(cards);
