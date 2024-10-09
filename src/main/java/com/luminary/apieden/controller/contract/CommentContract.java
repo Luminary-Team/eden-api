@@ -38,18 +38,6 @@ public interface CommentContract {
     })
     public ResponseEntity<Comment> register(CommentRequest commentRequest);
 
-    @Operation(summary = "Update comment", description = "Update comment's comment")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Comment's comment updated",
-                    content = @Content(schema = @Schema(implementation = CommentResponse.class))),
-            @ApiResponse(responseCode = "400", description = "Comment not found",
-                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error",
-                    content = @Content)
-    })
-    @Parameter(name = "id", description = "Comment's id", example = "1")
-    public ResponseEntity<CommentResponse> updateComment(String id, UpdateCommentRequest updateCommentRequest);
-
     @Operation(summary = "Delete comment", description = "Delete comment by id")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Comment deleted successfully",

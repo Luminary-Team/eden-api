@@ -7,12 +7,8 @@ import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.JoinColumn;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Size;
 import lombok.Builder;
@@ -37,23 +33,20 @@ public class Product {
     @Schema(hidden = true)
     private long id;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_usage_time_id", nullable = false)
+    @Column(name = "fk_usage_time_id")
     @NotNull(message = "O campo 'usageTime' precisa ser passado")
-    @Schema(name = "usageTime", description = "ID of the corresponding usage time", example = "1")
-    private UsageTime usageTime;
+    @Schema(name = "usageTime", description = "The corresponding usage time", example = "1")
+    private long usageTimeId;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_condition_type_id", nullable = false)
+    @Column(name = "fk_condition_type_id")
     @NotNull(message = "O campo 'conditionType' precisa ser passado")
-    @Schema(name = "conditionType", description = "ID of the corresponding condition type", example = "1")
-    private ConditionTypes conditionType;
+    @Schema(name = "conditionType", description = "The corresponding condition type", example = "1")
+    private long conditionTypeId;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_user_id", nullable = false)
+    @Column(name = "fk_user_id")
     @NotNull(message = "O campo 'user' precisa ser passado")
     @Schema(name = "user", description = "The information about the user responsible for the creation of the user", implementation = User.class)
-    private User user;
+    private long userId;
 
     @Column(name = "title", nullable = false, unique = true)
     @NotBlank(message = "O campo 'title' não pode ser vazio")
@@ -70,11 +63,11 @@ public class Product {
     @Column(name = "price", nullable = false)
     @NotNull(message = "O campo 'price' precisa ser passado")
     @Min(message = "O campo 'price' precisa ter seu valor acima de 0", value = 0)
-    private float price;
+    private double price;
 
     @Column(name = "max_price", nullable = false)
     @Min(message = "O campo 'maxPrice' não pode ser menor que 0", value = 0)
-    private float maxPrice;
+    private double maxPrice;
 
     @Column(name = "sender_zip_code", nullable = false)
     @NotBlank(message = "O campo 'senderZipCode' não pode ser vazio")
@@ -84,5 +77,5 @@ public class Product {
     @Column(name = "rating")
     @NotNull(message = "O campo 'rating' precisa ser passado")
     @Min(message = "O campo 'rating' não pode ser abaixo de 0", value = 0)
-    private float rating;
+    private double rating;
 }

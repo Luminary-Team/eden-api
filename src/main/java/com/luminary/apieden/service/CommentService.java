@@ -2,8 +2,6 @@ package com.luminary.apieden.service;
 
 import com.luminary.apieden.mapper.CommentMapper;
 import com.luminary.apieden.model.database.Comment;
-import com.luminary.apieden.model.database.Product;
-import com.luminary.apieden.model.database.User;
 import com.luminary.apieden.model.exception.HttpError;
 import com.luminary.apieden.model.request.CommentRequest;
 import com.luminary.apieden.model.request.UpdateCommentRequest;
@@ -35,17 +33,15 @@ public class CommentService {
     public Comment register(CommentRequest commentRequest) {
         log.info("[COMMENT] Registering comment");
         log.info("[COMMENT] Finding product in database");
-        Product product = productRepository.findById(commentRequest.getProductId())
+        productRepository.findById(commentRequest.getProductId())
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Produto não encontrado"));
         log.info("[COMMENT] Found product");
         log.info("[COMMENT] Finding user in database");
-        User user = userRepository.findById(commentRequest.getUserId())
+        userRepository.findById(commentRequest.getUserId())
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
         log.info("[COMMENT] Found user");
         log.info("[COMMENT] Prepared comment");
         Comment comment = commentMapper.toComment(commentRequest);
-        comment.setProduct(product);
-        comment.setUser(user);
         log.info("[COMMENT] Comment prepared");
         log.info("[COMMENT] Persisting comment in database");
         commentRepository.save(comment);
