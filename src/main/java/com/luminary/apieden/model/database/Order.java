@@ -30,7 +30,7 @@ public class Order {
 
     @Column(name = "fk_payment_types")
     @NotNull(message = "O campo 'paymentType' precisa ser passado")
-    private long paymentType;
+    private long paymentTypeId;
 
     @Column(name = "fk_status_orders_id")
     @NotNull(message = "O campo 'statusOrderId' precisa ser passado")
