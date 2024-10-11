@@ -23,7 +23,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CartController implements CartContract {
     private final CartService cartService;
-    @GetMapping("/findCartItens/{cartId}")
+    @GetMapping("/getCartItems/{cartId}")
     public ResponseEntity<List<CartItem>> findCartItems(@PathVariable String cartId) {
         return ResponseEntity.status(HttpStatus.OK).body(cartService.findCartItemsByCartId(cartId));
     }

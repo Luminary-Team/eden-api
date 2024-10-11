@@ -9,14 +9,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 @Table(name = "payment_types")
 public class PaymentType {
     @Id
     @Column(name = "pk_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(hidden = true)
     private long id;
 
     @Column(name = "type")
@@ -26,6 +29,6 @@ public class PaymentType {
 
     @Column(name = "description")
     @NotBlank(message = "O campo 'description' não pode ser vazio")
-    @Size(message = "O campo 'description' não pode passar de 45 caracteres", max = 45)
+    @Size(message = "O campo 'description' não pode passar de 90 caracteres", max = 90)
     private String description;
 }
