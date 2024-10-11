@@ -68,7 +68,7 @@ public class UserService {
             user.setPassword(encodedNewPassword);
             verifyVariable = true;
         } else if (request.containsKey("rating")) {
-            log.info("[USER] Rating {} being updated to {}", user.getRating(), (String) request.get("password"));
+            log.info("[USER] Rating {} being updated to {}", user.getRating(), (String) request.get("rating"));
             user.setRating((Float) request.get("rating"));
             verifyVariable = true;
         } else if (request.containsKey("cellphone")) {
@@ -89,7 +89,7 @@ public class UserService {
         if (!violations.isEmpty()) {
             StringBuilder errorMessage = new StringBuilder("Erros de validação:");
             for (ConstraintViolation<User> violation : violations) {
-                errorMessage.append(" /  ").append(violation.getMessage());
+                errorMessage.append(", ").append(violation.getMessage());
             }
             throw new HttpError(HttpStatus.BAD_REQUEST, errorMessage.toString());
         }
@@ -97,6 +97,7 @@ public class UserService {
         log.info("Attributes validated.");
         log.info("Saving user in database.");
         userRepository.save(user);
+        log.info("User saved in database.");
     }
 
     private void checkUnique(User user) throws HttpError {

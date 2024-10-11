@@ -16,15 +16,15 @@ public class StatusOrder {
     @Id
     @Column(name = "pk_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(hidden = true)
     private long id;
 
     @Column(name = "status")
     @NotBlank(message = "O campo 'status' não pode ser vazio")
+    @Size(message = "O campo 'status' não pode passar de 45 caracteres", max = 45)
     private String status;
 
     @Column(name = "description")
     @NotBlank(message = "O campo 'description' não pode ser vazio")
-    @Size(message = "O campo 'description' não pode passar de 45 caracteres", max = 45)
+    @Size(message = "O campo 'description' não pode passar de 90 caracteres", max = 90)
     private String description;
 }

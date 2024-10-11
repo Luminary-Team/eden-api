@@ -28,21 +28,25 @@ public class ProductController implements ProductContract {
     private final ProductService productService;
 
     @GetMapping("/getAll")
-    public ResponseEntity<List<Product>> findProducts() {
+    public ResponseEntity<List<Product>> getProducts() {
         return ResponseEntity.status(HttpStatus.OK).body(productService.findAll());
     }
 
     @GetMapping("/getByUserId/{userId}")
-    public ResponseEntity<List<Product>> findProductByUserId(@PathVariable String userId) {
+    public ResponseEntity<List<Product>> getProductByUserId(@PathVariable String userId) {
         List<Product> productList = productService.findProductByUserId(userId);
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
 
     @GetMapping("/getByTitle")
-    public ResponseEntity<List<Product>> findProductByTitleLike(
+    public ResponseEntity<List<Product>> getProductByTitleLike(
             @RequestParam("title") String title) {
         List<Product> productList = productService.findProductByTitleLike(title);
         return ResponseEntity.status(HttpStatus.OK).body(productList);
+    }
+    @GetMapping("/getByProductId/{productId}")
+    public ResponseEntity<Product> getByProductId(@PathVariable String productId) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.findProductById(productId));
     }
 
     @PostMapping("/register")
