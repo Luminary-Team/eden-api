@@ -42,12 +42,18 @@ public class ProductService {
         return productRepository.findByUserId(Long.parseLong(userId));
     }
 
-    public List<Product> findProductByTitleLike(String title) throws HttpError {
+    public List<Product> findProductByTitleLike(String title) {
         return productRepository.findByTitleLike(title);
 
     }
 
-    public Product register(ProductRequest productRequest) throws HttpError {
+    public Product findProductById(String productId) {
+        log.info("Fetching product by id: {}", productId);
+        return productRepository.findById(Long.valueOf(productId))
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Produto não encontrado"));
+    }
+
+    public Product register(ProductRequest productRequest) {
         log.info("Registering product");
         User user = userRepository.findByEmail(productRequest.getUserEmail())
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "E-mail não encontrado"));
