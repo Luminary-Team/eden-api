@@ -1,9 +1,13 @@
 package com.luminary.apieden.controller;
 
 import com.luminary.apieden.model.database.Order;
+import com.luminary.apieden.model.database.OrderItem;
+import com.luminary.apieden.model.request.RegisterOrderItemRequest;
 import com.luminary.apieden.model.request.RegisterOrderRequest;
 import com.luminary.apieden.service.OrderService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,8 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
-    @PostMapping("/register")
-    public ResponseEntity<Order> register(@RequestBody RegisterOrderRequest request) {
-
+    @PostMapping("/registerOrder")
+    public ResponseEntity<Order> register(@RequestBody @Valid RegisterOrderRequest request) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderService.register(request));
     }
+
+//    @PostMapping("/registerItem")
+//    public ResponseEntity<OrderItem> registerItem(@RequestBody @Valid RegisterOrderItemRequest request) {
+//
+//    }
 }
