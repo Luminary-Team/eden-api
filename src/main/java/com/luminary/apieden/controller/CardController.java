@@ -1,5 +1,6 @@
 package com.luminary.apieden.controller;
 
+import com.luminary.apieden.controller.contract.CardContract;
 import com.luminary.apieden.model.database.Card;
 import com.luminary.apieden.model.request.CardRequest;
 import com.luminary.apieden.model.response.CardResponse;
@@ -21,7 +22,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/card")
 @RequiredArgsConstructor
-public class CardController {
+public class CardController implements CardContract {
     private final CardService cardService;
 
     @GetMapping("/user/{id}")
