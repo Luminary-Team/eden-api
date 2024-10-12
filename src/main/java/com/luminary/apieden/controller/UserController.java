@@ -43,7 +43,7 @@ public class UserController implements UserContract {
     }
 
     @GetMapping("/getParam")
-    public ResponseEntity<User> getParam(
+    public ResponseEntity<UserResponse> getParam(
                                             @RequestParam(value = "id", required = false) String id,
                                             @RequestParam(value = "cpf", required = false) String cpf,
                                             @RequestParam(value = "email", required = false) String email) {

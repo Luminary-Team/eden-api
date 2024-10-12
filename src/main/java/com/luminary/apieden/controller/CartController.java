@@ -1,8 +1,8 @@
 package com.luminary.apieden.controller;
 
 import com.luminary.apieden.controller.contract.CartContract;
-import com.luminary.apieden.model.database.CartItem;
 import com.luminary.apieden.model.request.CartItemRequest;
+import com.luminary.apieden.model.response.CartItemResponse;
 import com.luminary.apieden.service.CartService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +23,12 @@ import java.util.List;
 @RequiredArgsConstructor
 public class CartController implements CartContract {
     private final CartService cartService;
-    @GetMapping("/getCartItems/{cartId}")
-    public ResponseEntity<List<CartItem>> findCartItems(@PathVariable String cartId) {
+    @GetMapping("/getCartItemsByCartId/{cartId}")
+    public ResponseEntity<List<CartItemResponse>> findCartItems(@PathVariable String cartId) {
         return ResponseEntity.status(HttpStatus.OK).body(cartService.findCartItemsByCartId(cartId));
     }
     @PostMapping("/register")
-    public ResponseEntity<CartItem> register(@RequestBody @Valid CartItemRequest request) {
+    public ResponseEntity<CartItemResponse> register(@RequestBody @Valid CartItemRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(cartService.register(request));
     }
     @DeleteMapping("/deleteCartItem/{cartItemId}")

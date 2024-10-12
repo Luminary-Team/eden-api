@@ -117,32 +117,11 @@ public class UserService {
         }
     }
 
-    public UserResponse findById(String id) {
-        User user = userRepository.findById(Long.valueOf(id))
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Id não registrado"));
-        Cart cart = cartRepository.findByUserId(Long.parseLong(id));
-        return userMapper.toUserResponse(user, cart);
-    }
-
-    public UserResponse findByCpf(String cpf) {
-        User user = userRepository.findByCpf(cpf)
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Cpf não registrado"));
-        Cart cart = cartRepository.findByUserId(user.getId());
-        return userMapper.toUserResponse(user, cart);
-    }
-
-    public UserResponse findByEmail(String email) {
-        User user = userRepository.findByEmail(email)
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Email não registrado"));
-        Cart cart = cartRepository.findByUserId(user.getId());
-        return userMapper.toUserResponse(user, cart);
-    }
-
     public List<User> findAll() {
         return userRepository.findAll();
     }
 
-    public User findByParameter(final String id, final String cpf, final String email) {
+    public UserResponse findByParameter(final String id, final String cpf, final String email) {
         User user = null;
         log.info("Trying to fetch user by valid parameter");
         if (id != null) {
@@ -160,10 +139,10 @@ public class UserService {
         }
         if (user == null) {
             log.warn("None valid parameter was passed, user not found");
-            throw new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado");
+            throw new HttpError(HttpStatus.BAD_REQUEST, "Nenhum campo válido foi passado");
         }
         log.info("Returning user {}", user);
-        return user;
+        return userMapper.toUserResponse(user, cartRepository.findByUserId(user.getId()));
     }
 
     public TokenResponse token(TokenRequest tokenRequest) throws HttpError {

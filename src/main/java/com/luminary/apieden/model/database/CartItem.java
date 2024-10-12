@@ -34,9 +34,8 @@ public class CartItem {
     @Schema(name = "cartId", description = "Unique ID of the cart in which a product will be inserted")
     private long cartId;
 
-    @ManyToOne
-    @JoinColumn(name = "fk_product_id")
-    @NotNull(message = "O campo 'product' precisa ser passado")
+    @Column(name = "fk_product_id")
+    @NotNull(message = "O campo 'productId' precisa ser passado")
     @Schema(name = "product", description = "Unique ID of the product in which will be inserted into a cart")
-    private Product product;
+    private long productId;
 }
