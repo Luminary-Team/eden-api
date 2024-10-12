@@ -8,6 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@Schema(name = "CardResponseSchema", description = "The user response schema")
 public class CardResponse {
     @NotNull(message = "The 'id' field must be passed")
     @Schema(name = "id", description = "The card's id")

@@ -10,13 +10,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class RegisterOrderRequest {
-    private long id;
+    private long cartId;
 
     @NotNull(message = "O campo 'paymentType' precisa ser passado")
     private long paymentTypeId;
-
-    @NotNull(message = "O campo 'statusOrderId' precisa ser passado")
-    private long statusOrderId;
 
     @NotBlank(message = "O campo 'addressDelivery' precisa ser passado")
     private String addressDelivery;

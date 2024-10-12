@@ -6,8 +6,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -28,11 +26,11 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Column(name = "fk_payment_types")
+    @Column(name = "fk_payment_type_id")
     @NotNull(message = "O campo 'paymentType' precisa ser passado")
     private long paymentTypeId;
 
-    @Column(name = "fk_status_orders_id")
+    @Column(name = "fk_status_order_id")
     @NotNull(message = "O campo 'statusOrderId' precisa ser passado")
     private long statusOrderId;
 
