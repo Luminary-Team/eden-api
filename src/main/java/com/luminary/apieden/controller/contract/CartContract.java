@@ -1,7 +1,7 @@
 package com.luminary.apieden.controller.contract;
 
-import com.luminary.apieden.model.database.CartItem;
 import com.luminary.apieden.model.request.CartItemRequest;
+import com.luminary.apieden.model.response.CartItemResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,7 +21,7 @@ public interface CartContract {
                     content = @Content)
     })
     @Parameter(name = "cartId", description = "Cart id", example = "1")
-    public ResponseEntity<List<CartItem>> findCartItems(String cartId);
+    public ResponseEntity<List<CartItemResponse>> findCartItems(String cartId);
 
     @Operation(summary = "Register an item in the cart", description = "Register an item based on the cart and product id")
     @ApiResponses(value = {
@@ -30,7 +30,7 @@ public interface CartContract {
                     content = @Content)
     })
     @Parameter(name = "cartId", description = "Cart id", example = "1")
-    public ResponseEntity<CartItem> register(CartItemRequest request);
+    public ResponseEntity<CartItemResponse> register(CartItemRequest request);
 
     @Operation(summary = "Delete an item in the cart", description = "Delete a item in the cart based on his ID")
     @Parameter(name = "cartId", description = "Unique ID of the cart item, to be removed from the his respective cart")
