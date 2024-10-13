@@ -8,6 +8,7 @@ import com.luminary.apieden.model.database.PaymentType;
 import com.luminary.apieden.model.database.StatusOrder;
 import com.luminary.apieden.model.enums.StatusOrderEnum;
 import com.luminary.apieden.model.exception.HttpError;
+import com.luminary.apieden.model.procedure.TotalSaleProcedure;
 import com.luminary.apieden.model.request.RegisterOrderRequest;
 import com.luminary.apieden.model.response.OrderResponse;
 import com.luminary.apieden.repository.CartItemRepository;
@@ -29,6 +30,7 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final CartItemRepository cartItemRepository;
     private final OrderMapper orderMapper;
+    private final TotalSaleProcedure totalSaleProcedure;
 
     public OrderResponse registerOrder(RegisterOrderRequest request) {
         PaymentType paymentType = paymentTypeRepository.findById(request.getPaymentTypeId())
@@ -51,7 +53,9 @@ public class OrderService {
                         cartItemRepository.deleteById(cartItem.getId());
                         orderItemRepository.save(orderItem);
                     });
-            return orderMapper.toOrderResponse(order, statusOrder, paymentType);
+            float totalSale = totalSaleProcedure.totalSale((int) (order.getId()));
+            order.setTotalSale(totalSale);
+            return orderMapper.toOrderResponse(order, statusOrder, paymentType, totalSale);
         }
         throw new HttpError(HttpStatus.BAD_REQUEST, "Compra não pôde ser finalizada, carrinho vazio");
     }
