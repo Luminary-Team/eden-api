@@ -37,6 +37,12 @@ public class CartService {
         log.info("Finding product described in cardItem.productId. ID: {}", request.getProductsId());
         Product product = productRepository.findById(request.getProductsId())
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Produto não encontrado"));
+        if (!cartItemRepository
+                .findCartItemByCartIdAndProductId(request.getCartId(), product.getId())
+                .isEmpty()
+        ) {
+            throw new HttpError(HttpStatus.BAD_REQUEST, "Produto já cadastrado nesse carrinho");
+        }
         CartItem cartItem = CartItem.builder()
                 .cartId(request.getCartId())
                 .productId(product.getId())
