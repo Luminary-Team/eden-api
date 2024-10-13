@@ -11,6 +11,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class CartItemResponse {
+    @Schema(name = "id", description = "The unique card item id", example = "1")
+    private long cartItemId;
 
     @NotNull(message = "O campo 'cart' precisa ser passado")
     @Schema(name = "cartId", description = "Unique ID of the cart in which a product will be inserted")

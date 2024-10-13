@@ -11,5 +11,5 @@ import java.time.LocalDate;
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
     Order toOrder(RegisterOrderRequest request, long statusOrderId, LocalDate orderDate);
-    OrderResponse toOrderResponse(Order order, StatusOrder statusOrder, PaymentType paymentType);
+    OrderResponse toOrderResponse(Order order, StatusOrder statusOrder, PaymentType paymentType, float totalSale);
 }

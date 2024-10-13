@@ -24,15 +24,18 @@ public class PaymentType {
     @Id
     @Column(name = "pk_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Schema(name = "id", description = "The id of the payment type", example = "1")
     private long id;
 
     @Column(name = "type")
     @NotBlank(message = "O campo 'type' não pode ser vazio")
     @Size(message = "O campo 'type' não pode passar de 45 caracteres", max = 45)
+    @Schema(name = "type", description = "The type of the payment type", example = "pix")
     private String type;
 
     @Column(name = "description")
     @NotBlank(message = "O campo 'description' não pode ser vazio")
     @Size(message = "O campo 'description' não pode passar de 90 caracteres", max = 90)
+    @Schema(name = "description", description = "Description of the respective payment type", example = "Transfrencia PIX")
     private String description;
 }
