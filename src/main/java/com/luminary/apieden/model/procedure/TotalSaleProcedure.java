@@ -24,7 +24,6 @@ public class TotalSaleProcedure {
                 "SELECT o.totalSale FROM Order o WHERE o.id = :orderId");
         query.setParameter("orderId", orderId);
 
-        // Retorna o valor do total_sale
         return (Float) query.getSingleResult();
     }
 }

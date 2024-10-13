@@ -50,7 +50,7 @@ public class OrderService {
                                 .orderId(order.getId())
                                 .productId(cartItem.getProductId())
                                 .build();
-                        cartItemRepository.deleteById(cartItem.getId());
+                        cartItemRepository.deleteCartItemsByProductId(cartItem.getProductId());
                         orderItemRepository.save(orderItem);
                     });
             float totalSale = totalSaleProcedure.totalSale((int) (order.getId()));
