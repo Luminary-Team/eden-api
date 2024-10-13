@@ -14,7 +14,6 @@ import com.luminary.apieden.repository.CartItemRepository;
 import com.luminary.apieden.repository.OrderItemRepository;
 import com.luminary.apieden.repository.OrderRepository;
 import com.luminary.apieden.repository.PaymentTypeRepository;
-import com.luminary.apieden.repository.StatusOrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
