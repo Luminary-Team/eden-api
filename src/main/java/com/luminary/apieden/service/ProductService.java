@@ -1,13 +1,13 @@
 package com.luminary.apieden.service;
 
 import com.luminary.apieden.mapper.ProductMapper;
-import com.luminary.apieden.model.database.ConditionType;
+import com.luminary.apieden.model.database.OrderItem;
 import com.luminary.apieden.model.database.Product;
-import com.luminary.apieden.model.database.UsageTime;
 import com.luminary.apieden.model.database.User;
 import com.luminary.apieden.model.exception.HttpError;
 import com.luminary.apieden.model.request.ProductRequest;
 import com.luminary.apieden.repository.ConditionTypeRepository;
+import com.luminary.apieden.repository.OrderItemRepository;
 import com.luminary.apieden.repository.ProductRepository;
 import com.luminary.apieden.repository.UsageTimeRepository;
 import com.luminary.apieden.repository.UserRepository;
@@ -32,10 +32,20 @@ public class ProductService {
     private final ConditionTypeRepository conditionTypeRepository;
     private final UsageTimeRepository usageTimeRepository;
     private final UserRepository userRepository;
+    private final OrderItemRepository orderItemRepository;
     private final ProductMapper productMapper;
 
     public List<Product> findAll() {
-        return productRepository.findAll();
+        List<Product> productList = productRepository.findAll();
+        List<OrderItem> orderItemList = orderItemRepository.findAll();
+        orderItemList
+                .forEach(orderItem ->
+                    productList.stream()
+                            .filter(product -> product.getId() == orderItem.getProductId())
+                            .toList()
+                            .forEach(productList::remove)
+                );
+        return productList;
     }
 
     public List<Product> findProductByUserId(String userId) {
