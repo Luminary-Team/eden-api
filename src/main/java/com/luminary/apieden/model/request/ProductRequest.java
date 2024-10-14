@@ -35,7 +35,4 @@ public class ProductRequest {
         @NotBlank(message = "O campo 'senderZipCode' não pode ser vazio")
         @Size(message = "O campo 'senderZipCode' precisa ter exatamente 8 caracteres", min = 8, max = 8)
         private String senderZipCode;
-        @NotNull(message = "O campo 'rating' precisa ser passado")
-        @Min(message = "O campo 'rating' não pode ser abaixo de 0", value = 0)
-        private float rating;
 }
