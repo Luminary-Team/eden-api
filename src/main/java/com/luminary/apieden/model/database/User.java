@@ -61,12 +61,6 @@ public class User {
     @Schema(name = "password", description = "The password of the user", example = "megaSenha@123")
     private String password;
 
-    @Column(name = "rating")
-    @Max(message = "O campo 'rating' não pode ser acima de 5", value = 5)
-    @Min(message = "O campo 'rating' não pode ser abaixo de 0", value = 0)
-    @Schema(name = "rating", description = "The rating of the user", example = "3.5")
-    private float rating;
-
     @Column(name = "email", nullable = false, unique = true)
     @Email(message = "O campo 'email' é inválido")
     @NotBlank(message = "O campo 'email' deve ser passado")
