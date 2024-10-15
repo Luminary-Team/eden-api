@@ -67,6 +67,10 @@ public class UserService {
             String encodedNewPassword = passwordEncoder.encode((String) request.get("password"));
             user.setPassword(encodedNewPassword);
             verifyVariable = true;
+        } else if (request.containsKey("rating")) {
+            log.info("[USER] Rating {} being updated to {}", user.getRating(), (String) request.get("rating"));
+            user.setRating((Float) request.get("rating"));
+            verifyVariable = true;
         } else if (request.containsKey("cellphone")) {
             log.info("[USER] Cellphone {} being updated to {}", user.getCellphone(), (String) request.get("cellphone"));
             user.setCellphone((String) request.get("cellphone"));
