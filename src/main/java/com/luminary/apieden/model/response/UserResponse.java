@@ -22,9 +22,6 @@ public class UserResponse {
     @Schema(name = "password", description = "The password of the user", example = "megaSenha@123")
     private String password;
 
-    @Schema(name = "rating", description = "The rating of the user", example = "3.5")
-    private float rating;
-
     @Schema(name = "email", description = "The email of the user", example = "pedro.pedro@mail.com")
     private String email;
 
