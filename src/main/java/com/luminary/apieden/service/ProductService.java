@@ -132,12 +132,6 @@ public class ProductService {
                 verifyVariable = true;
                 log.info("[PRODUCT] Sender zip code updated");
             }
-            if (request.containsKey("rating")) {
-                log.info("[PRODUCT] Rating {} being updated to {}", product.getSenderZipCode(), (String) request.get("senderZipCode"));
-                product.setRating((Double) request.get("rating"));
-                verifyVariable = true;
-                log.info("[PRODUCT] Rating updated");
-            }
         } catch (ClassCastException clc) {
             throw new HttpError(HttpStatus.BAD_REQUEST, "Problema ao receber número, por favor, insira o '.' ao número(ex. 2.0)");
         }
