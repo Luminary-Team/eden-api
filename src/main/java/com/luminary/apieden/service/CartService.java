@@ -4,6 +4,7 @@ import com.luminary.apieden.mapper.CartMapper;
 import com.luminary.apieden.model.database.CartItem;
 import com.luminary.apieden.model.database.Product;
 import com.luminary.apieden.model.exception.HttpError;
+import com.luminary.apieden.model.procedure.TotalSaleProcedure;
 import com.luminary.apieden.model.request.CartItemRequest;
 import com.luminary.apieden.model.response.CartItemResponse;
 import com.luminary.apieden.repository.CartItemRepository;
@@ -14,7 +15,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,6 +22,7 @@ import java.util.Optional;
 public class CartService {
     private final CartItemRepository cartItemRepository;
     private final ProductRepository productRepository;
+    private final TotalSaleProcedure totalSaleProcedure;
     private final CartMapper cartMapper;
     public List<CartItemResponse> findCartItemsByCartId(String cartId) {
         log.info("Finding cartItems by cart id: {}", cartId);
@@ -47,6 +48,7 @@ public class CartService {
                 .cartId(request.getCartId())
                 .productId(product.getId())
                 .build();
+        totalSaleProcedure.totalSale((int) (request.getCartId()));
         cartItemRepository.save(cartItem);
         return cartMapper.toRegisterCartItem(cartItem, product);
     }
