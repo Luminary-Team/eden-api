@@ -3,6 +3,7 @@ package com.luminary.apieden.controller;
 import com.luminary.apieden.model.database.Rating;
 import com.luminary.apieden.model.request.RatingRequest;
 import com.luminary.apieden.service.RatingService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class RatingController {
     private final RatingService ratingService;
 
-    @PostMapping("/a")
-    public ResponseEntity<Rating> register(@RequestBody RatingRequest request) {
+    @PostMapping("/")
+    public ResponseEntity<Rating> register(@RequestBody @Valid RatingRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(ratingService.register(request));
     }
 }

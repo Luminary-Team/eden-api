@@ -18,6 +18,11 @@ public class RatingService {
     private final RatingMapper ratingMapper;
 
     public Rating register(RatingRequest request) {
+        if (request.getUserAppraiserId() == 0
+        || request.getUserAppraisedId() == 0
+        || request.getRating() == 0) {
+            throw new HttpError(HttpStatus.BAD_REQUEST, "Valores não podem ser 0");
+        }
         Rating rating = ratingMapper.toRating(request);
         ratingRepository.save(rating);
         return rating;
