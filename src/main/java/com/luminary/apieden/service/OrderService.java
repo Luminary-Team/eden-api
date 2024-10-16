@@ -30,7 +30,6 @@ public class OrderService {
     private final OrderItemRepository orderItemRepository;
     private final CartItemRepository cartItemRepository;
     private final OrderMapper orderMapper;
-    private final TotalSaleProcedure totalSaleProcedure;
 
     public OrderResponse registerOrder(RegisterOrderRequest request) {
         PaymentType paymentType = paymentTypeRepository.findById(request.getPaymentTypeId())
@@ -53,9 +52,7 @@ public class OrderService {
                         cartItemRepository.deleteCartItemsByProductId(cartItem.getProductId());
                         orderItemRepository.save(orderItem);
                     });
-            float totalSale = totalSaleProcedure.totalSale((int) (order.getId()));
-            order.setTotalSale(totalSale);
-            return orderMapper.toOrderResponse(order, statusOrder, paymentType, totalSale);
+            return orderMapper.toOrderResponse(order, statusOrder, paymentType);
         }
         throw new HttpError(HttpStatus.BAD_REQUEST, "Compra não pôde ser finalizada, carrinho vazio");
     }
