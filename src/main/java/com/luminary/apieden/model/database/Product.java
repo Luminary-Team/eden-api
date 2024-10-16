@@ -73,4 +73,7 @@ public class Product {
     @NotBlank(message = "O campo 'senderZipCode' não pode ser vazio")
     @Size(message = "O campo 'senderZipCode' precisa ter exatamente 8 caracteres", min = 8, max = 8)
     private String senderZipCode;
+
+    @Column(name = "premium")
+    private boolean premium;
 }
