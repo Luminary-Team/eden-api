@@ -27,9 +27,14 @@ import java.util.Map;
 public class ProductController implements ProductContract {
     private final ProductService productService;
 
-    @GetMapping("/getAll")
+    @GetMapping("/getPremiumProducts")
+    public ResponseEntity<List<Product>> getPremiumProducts() {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.findProductsByPremium());
+    }
+
+    @GetMapping("/findProducts")
     public ResponseEntity<List<Product>> getProducts() {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.findAll());
+        return ResponseEntity.status(HttpStatus.OK).body(productService.findProducts());
     }
 
     @GetMapping("/getByUserId/{userId}")

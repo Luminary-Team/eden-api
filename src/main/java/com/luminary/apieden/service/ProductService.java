@@ -35,17 +35,14 @@ public class ProductService {
     private final OrderItemRepository orderItemRepository;
     private final ProductMapper productMapper;
 
-    public List<Product> findAll() {
-        List<Product> productList = productRepository.findAll();
-        List<OrderItem> orderItemList = orderItemRepository.findAll();
-        orderItemList
-                .forEach(orderItem ->
-                    productList.stream()
-                            .filter(product -> product.getId() == orderItem.getProductId())
-                            .toList()
-                            .forEach(productList::remove)
-                );
-        return productList;
+    public List<Product> findProductsByPremium() {
+        List<Product> productList = productRepository.findProductsByPremium(true);
+        return filterSoldProducts(productList);
+    }
+
+    public List<Product> findProducts() {
+        List<Product> productList = productRepository.findProductsByPremium(false);
+        return filterSoldProducts(productList);
     }
 
     public List<Product> findProductByUserId(String userId) {
@@ -166,5 +163,17 @@ public class ProductService {
         log.info("[PRODUCT] Deleting product");
         productRepository.deleteById(Long.valueOf(id));
         log.info("[PRODUCT] Product deleted");
+    }
+
+    private List<Product> filterSoldProducts(List<Product> productList) {
+        List<OrderItem> orderItemList = orderItemRepository.findAll();
+        orderItemList
+                .forEach(orderItem ->
+                        productList.stream()
+                                .filter(product -> product.getId() == orderItem.getProductId())
+                                .toList()
+                                .forEach(productList::remove)
+                );
+        return productList;
     }
 }
