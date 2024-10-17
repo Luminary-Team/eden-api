@@ -21,7 +21,7 @@ public class RatingService {
         if (request.getUserAppraiserId() == 0
         || request.getUserAppraisedId() == 0
         || request.getRating() == 0) {
-            throw new HttpError(HttpStatus.BAD_REQUEST, "Valores não podem ser 0");
+            throw new HttpError(HttpStatus.BAD_REQUEST, "Valores precisam ser passados explicitamente(não podem ser 0)");
         }
         Rating rating = ratingMapper.toRating(request);
         ratingRepository.save(rating);
