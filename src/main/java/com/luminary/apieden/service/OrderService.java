@@ -8,7 +8,6 @@ import com.luminary.apieden.model.database.PaymentType;
 import com.luminary.apieden.model.database.StatusOrder;
 import com.luminary.apieden.model.enums.StatusOrderEnum;
 import com.luminary.apieden.model.exception.HttpError;
-import com.luminary.apieden.model.procedure.TotalSaleProcedure;
 import com.luminary.apieden.model.request.RegisterOrderRequest;
 import com.luminary.apieden.model.response.OrderResponse;
 import com.luminary.apieden.repository.CartItemRepository;

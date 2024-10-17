@@ -12,7 +12,7 @@ import lombok.Setter;
 @Setter
 public class ProductRequest {
         @NotNull(message = "O campo 'usageTimeId' precisa ser passado")
-        @Schema(name = "usageTime", description = "ID of the corresponding usage time", example = "1")
+        @Schema(name = "usageTimeId", description = "ID of the corresponding usage time", example = "1")
         private long usageTimeId;
         @NotNull(message = "O campo 'conditionTypeId' precisa ser passado")
         @Schema(name = "conditionType", description = "ID of the corresponding condition type", example = "1")

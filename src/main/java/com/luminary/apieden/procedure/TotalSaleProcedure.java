@@ -1,4 +1,4 @@
-package com.luminary.apieden.model.procedure;
+package com.luminary.apieden.procedure;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
