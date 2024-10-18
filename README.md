@@ -43,11 +43,11 @@
 <h2>📚 Sobre o Projeto</h2>
 <p>
   Este projeto foi desenvolvido como parte das disciplinas <strong>Desenvolvimento II</strong>,
-  do 2º ano. O objetivo foi criar uma API.
+  do 2º ano. O objetivo foi criar uma API para que o desenvolvedor Mobile pudesse chamar para fazer as principais requisições.
 </p>
 
 <hr>
 
 <p align="center">
-  <strong>Desenvolvido por Pedro Moisés Araujo de Gusmão e Enzo Seiji Delgado Tabuchi</strong>
+  <strong>Desenvolvido por Pedro Moisés Araujo de Gusmão</strong>
 </p>
