@@ -59,11 +59,14 @@ public class CartService {
                 .cartId(request.getCartId())
                 .productId(product.getId())
                 .build();
-        totalSaleProcedure.totalSale((int) (request.getCartId()));
         cartItemRepository.save(cartItem);
+        cartRepository.totalSaleCalc((int) cartItem.getCartId());
         return cartMapper.toRegisterCartItemResponse(cartItem, product);
     }
     public void delete(String cartItemId) {
+        CartItem cartItem = cartItemRepository.findById(Long.valueOf(cartItemId))
+                        .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "ID não encontrado"));
+        cartRepository.totalSaleCalc((int) cartItem.getCartId());
         cartItemRepository.deleteById(Long.valueOf(cartItemId));
     }
 }
