@@ -10,6 +10,6 @@ import java.util.List;
 @Setter
 @Builder
 public class FindCartItemResponse {
-    private List<CartItemResponse> cartItemResponseList;
+    private List<CartItemResponse> cartItems;
     private float totalSale;
 }

@@ -18,5 +18,6 @@ public interface CartMapper {
     @Mapping(source = "cartItem.id", target = "cartItemId")
     CartItemResponse toCartItemResponse(CartItem cartItem, Product product);
 
+    @Mapping(source = "cartItemResponseList", target = "cartItems")
     FindCartItemResponse toFindCartItemResponse(List<CartItemResponse> cartItemResponseList, float totalSale);
 }
