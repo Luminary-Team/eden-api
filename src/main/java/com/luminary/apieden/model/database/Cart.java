@@ -28,4 +28,7 @@ public class Cart {
     @Column(name = "fk_user_id", unique = true)
     @NotNull(message = "O campo 'user' precisa ser passado")
     private long userId;
+
+    @Column(name = "total_sale")
+    private float totalSale;
 }

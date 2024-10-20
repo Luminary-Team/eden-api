@@ -1,6 +1,7 @@
 package com.luminary.apieden.service;
 
 import com.luminary.apieden.mapper.OrderMapper;
+import com.luminary.apieden.model.database.Cart;
 import com.luminary.apieden.model.database.CartItem;
 import com.luminary.apieden.model.database.Order;
 import com.luminary.apieden.model.database.OrderItem;
@@ -8,10 +9,10 @@ import com.luminary.apieden.model.database.PaymentType;
 import com.luminary.apieden.model.database.StatusOrder;
 import com.luminary.apieden.model.enums.StatusOrderEnum;
 import com.luminary.apieden.model.exception.HttpError;
-import com.luminary.apieden.model.procedure.TotalSaleProcedure;
 import com.luminary.apieden.model.request.RegisterOrderRequest;
 import com.luminary.apieden.model.response.OrderResponse;
 import com.luminary.apieden.repository.CartItemRepository;
+import com.luminary.apieden.repository.CartRepository;
 import com.luminary.apieden.repository.OrderItemRepository;
 import com.luminary.apieden.repository.OrderRepository;
 import com.luminary.apieden.repository.PaymentTypeRepository;
@@ -28,6 +29,7 @@ public class OrderService {
     private final PaymentTypeRepository paymentTypeRepository;
     private final OrderRepository orderRepository;
     private final OrderItemRepository orderItemRepository;
+    private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
     private final OrderMapper orderMapper;
 
@@ -39,7 +41,10 @@ public class OrderService {
                 .status(StatusOrderEnum.ENTREGUE.getStatus())
                 .description(StatusOrderEnum.ENTREGUE.getDescription())
                 .build();
+        Cart cart = cartRepository.findById(request.getCartId())
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Carrinho não encontrado."));
         Order order = orderMapper.toOrder(request, StatusOrderEnum.ENTREGUE.getId(), LocalDate.now());
+        order.setTotalSale(cart.getTotalSale());
         orderRepository.save(order);
         List<CartItem> cartItemList = cartItemRepository.findCartItemsByCartId(request.getCartId());
         if (!cartItemList.isEmpty()) {
@@ -52,6 +57,7 @@ public class OrderService {
                         cartItemRepository.deleteCartItemsByProductId(cartItem.getProductId());
                         orderItemRepository.save(orderItem);
                     });
+            cartRepository.totalSaleCalc((int) request.getCartId());
             return orderMapper.toOrderResponse(order, statusOrder, paymentType);
         }
         throw new HttpError(HttpStatus.BAD_REQUEST, "Compra não pôde ser finalizada, carrinho vazio");
