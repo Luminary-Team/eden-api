@@ -2,8 +2,10 @@ package com.luminary.apieden.controller.contract;
 
 import com.luminary.apieden.model.request.RegisterOrderRequest;
 import com.luminary.apieden.model.response.ErrorResponse;
+import com.luminary.apieden.model.response.FindAllOrderResponse;
 import com.luminary.apieden.model.response.OrderResponse;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,4 +25,16 @@ public interface OrderContract {
                     content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
     })
     public ResponseEntity<OrderResponse> register(RegisterOrderRequest request);
+
+    @Operation(summary = "Get all users by user", description = "Get all orders made by the user")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Orders items returned successfully",
+                    content = @Content(schema = @Schema(implementation = FindAllOrderResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class)))
+    })
+    @Parameter(name = "userId", description = "The id of the user")
+    public ResponseEntity<FindAllOrderResponse> getAll(String userId);
 }
