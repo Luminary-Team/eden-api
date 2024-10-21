@@ -170,7 +170,7 @@ public class ProductService {
         orderItemList
                 .forEach(orderItem ->
                         productList.stream()
-                                .filter(product -> product.getId() == orderItem.getProductId())
+                                .filter(product -> product.equals(orderItem.getProduct()))
                                 .toList()
                                 .forEach(productList::remove)
                 );
