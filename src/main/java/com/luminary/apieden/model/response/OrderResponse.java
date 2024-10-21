@@ -13,6 +13,8 @@ import java.time.LocalDate;
 @Setter
 @AllArgsConstructor
 public class OrderResponse {
+    @Schema(name = "userId", description = "The id of the user completing the order", example = "1")
+    private long userId;
     @Schema(name = "paymentType", description = "The user payment type selected by the user", implementation = PaymentType.class)
     private PaymentType paymentType;
     @Schema(name = "statusOrder", description = "The status order of the order", implementation = StatusOrder.class)

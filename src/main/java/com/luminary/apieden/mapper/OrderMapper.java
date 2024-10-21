@@ -10,6 +10,6 @@ import java.time.LocalDate;
 
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
-    Order toOrder(RegisterOrderRequest request, long statusOrderId, LocalDate orderDate);
+    Order toOrder(RegisterOrderRequest request, long statusOrderId, LocalDate orderDate, float userId, float totalSale);
     OrderResponse toOrderResponse(Order order, StatusOrder statusOrder, PaymentType paymentType);
 }
