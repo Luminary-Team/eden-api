@@ -5,7 +5,6 @@ import com.luminary.apieden.model.database.Cart;
 import com.luminary.apieden.model.database.CartItem;
 import com.luminary.apieden.model.database.Product;
 import com.luminary.apieden.model.exception.HttpError;
-import com.luminary.apieden.model.procedure.TotalSaleProcedure;
 import com.luminary.apieden.model.request.CartItemRequest;
 import com.luminary.apieden.model.response.CartItemResponse;
 import com.luminary.apieden.model.response.FindCartItemResponse;
@@ -27,7 +26,6 @@ public class CartService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
     private final ProductRepository productRepository;
-    private final TotalSaleProcedure totalSaleProcedure;
     private final CartMapper cartMapper;
     public FindCartItemResponse findCartItemsByCartId(String cartId) {
         log.info("Finding cartItems by cart id: {}", cartId);
@@ -41,7 +39,7 @@ public class CartService {
         Cart cart = cartRepository.findById(Long.parseLong(cartId))
                 .orElseThrow(() -> {
                     log.error("[Cart Service] Cart could not be found to return totalSale");
-                    return new HttpError(HttpStatus.INTERNAL_SERVER_ERROR, "Não conseguiu fazer a consulta para totalSale.");
+                    return new HttpError(HttpStatus.INTERNAL_SERVER_ERROR, "Não conseguiu encontrar carrinho.");
                 });
         return cartMapper.toFindCartItemResponse(cartItemResponseList, cart.getTotalSale());
     }
