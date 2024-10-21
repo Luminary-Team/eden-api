@@ -58,20 +58,19 @@ public class UserService {
             log.info("[USER] Name {} being updated to {}", user.getName(), (String) request.get("name"));
             user.setName((String) request.get("name"));
             verifyVariable = true;
-        } else if (request.containsKey("userName")) {
+        } 
+        if (request.containsKey("userName")) {
             log.info("[USER] UserName {} being updated to {}", user.getUserName(), (String) request.get("userName"));
             user.setUserName((String) request.get("userName"));
             verifyVariable = true;
-        } else if (request.containsKey("password")) {
+        } 
+        if (request.containsKey("password")) {
             log.info("[USER] Password being updated.");
             String encodedNewPassword = passwordEncoder.encode((String) request.get("password"));
             user.setPassword(encodedNewPassword);
             verifyVariable = true;
-        } else if (request.containsKey("rating")) {
-            log.info("[USER] Rating {} being updated to {}", user.getRating(), (String) request.get("rating"));
-            user.setRating((Float) request.get("rating"));
-            verifyVariable = true;
-        } else if (request.containsKey("cellphone")) {
+        }
+        if (request.containsKey("cellphone")) {
             log.info("[USER] Cellphone {} being updated to {}", user.getCellphone(), (String) request.get("cellphone"));
             user.setCellphone((String) request.get("cellphone"));
             verifyVariable = true;

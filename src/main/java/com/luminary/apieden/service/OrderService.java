@@ -43,8 +43,7 @@ public class OrderService {
                 .build();
         Cart cart = cartRepository.findById(request.getCartId())
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Carrinho não encontrado."));
-        Order order = orderMapper.toOrder(request, StatusOrderEnum.ENTREGUE.getId(), LocalDate.now());
-        order.setTotalSale(cart.getTotalSale());
+        Order order = orderMapper.toOrder(request, StatusOrderEnum.ENTREGUE.getId(), LocalDate.now(), cart.getUserId(), cart.getTotalSale());
         orderRepository.save(order);
         List<CartItem> cartItemList = cartItemRepository.findCartItemsByCartId(request.getCartId());
         if (!cartItemList.isEmpty()) {

@@ -34,6 +34,10 @@ public class Order {
     @NotNull(message = "O campo 'statusOrderId' precisa ser passado")
     private long statusOrderId;
 
+    @Column(name = "fk_user_id")
+    @NotNull(message = "O campo 'userId' precisa ser passado")
+    private long userId;
+
     @Column(name = "order_date")
     @NotNull(message = "O campo 'orderDate' precisa ser passado")
     private LocalDate orderDate;
