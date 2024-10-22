@@ -19,3 +19,12 @@ jobs:
         # A Render API key
         api-key: ${{secrets.API_KEY}}
         wait-for-success: true
+    - name: AWS Deploy Action
+    if: ${{ !secrets.SKIP_AWS_DEPLOY }}
+    run: |
+         echo "${{secrets.KEY_EC2_E}}" >private_key && chmod 400 private_key
+         ssh -o StrictHostKeyChecking=no -i "private_key" ubuntu@ec2-107-20-132-70.compute-1.amazonaws.com"
+                   cd /home/ubuntu/eden-api &&
+                   git pull &&
+                   mvn clean package -DskipTests &&
+                   ./executar.sh "
