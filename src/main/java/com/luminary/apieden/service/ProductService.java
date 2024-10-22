@@ -35,13 +35,13 @@ public class ProductService {
     private final OrderItemRepository orderItemRepository;
     private final ProductMapper productMapper;
 
-    public List<Product> findProductsByPremium() {
-        List<Product> productList = productRepository.findProductsByPremium(true);
+    public List<Product> getPremiumProducts(String userId) {
+        List<Product> productList = productRepository.findProductsByUserIdNotAndPremiumIsTrue(Long.parseLong(userId));
         return filterSoldProducts(productList);
     }
 
-    public List<Product> findProducts() {
-        List<Product> productList = productRepository.findProductsByPremium(false);
+    public List<Product> getNotPremiumProducts(String userId) {
+        List<Product> productList = productRepository.findProductsByUserIdNotAndPremiumIsFalse(Long.parseLong(userId));
         return filterSoldProducts(productList);
     }
 

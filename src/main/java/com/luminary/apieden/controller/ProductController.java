@@ -5,9 +5,12 @@ import com.luminary.apieden.model.database.Product;
 import com.luminary.apieden.model.request.ProductRequest;
 import com.luminary.apieden.service.ProductService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,13 +31,13 @@ public class ProductController implements ProductContract {
     private final ProductService productService;
 
     @GetMapping("/getPremiumProducts")
-    public ResponseEntity<List<Product>> getPremiumProducts() {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.findProductsByPremium());
+    public ResponseEntity<List<Product>> getPremiumProducts(@RequestHeader String userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getPremiumProducts(userId));
     }
 
-    @GetMapping("/findProducts")
-    public ResponseEntity<List<Product>> getProducts() {
-        return ResponseEntity.status(HttpStatus.OK).body(productService.findProducts());
+    @GetMapping("/getProducts")
+    public ResponseEntity<List<Product>> getProducts(@RequestHeader String userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(productService.getNotPremiumProducts(userId));
     }
 
     @GetMapping("/getByUserId/{userId}")
@@ -49,6 +52,7 @@ public class ProductController implements ProductContract {
         List<Product> productList = productService.findProductByTitleLike(title);
         return ResponseEntity.status(HttpStatus.OK).body(productList);
     }
+
     @GetMapping("/getByProductId/{productId}")
     public ResponseEntity<Product> getByProductId(@PathVariable String productId) {
         return ResponseEntity.status(HttpStatus.OK).body(productService.findProductById(productId));
