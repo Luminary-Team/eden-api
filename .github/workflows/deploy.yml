@@ -8,7 +8,9 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    env:
+      st: ${{secrets.AWS_DEPLOY}}
+  
     steps:
 
     - name: Render Deploy Action
@@ -20,7 +22,7 @@ jobs:
         api-key: ${{secrets.API_KEY}}
         wait-for-success: true
     - name: AWS Deploy Action
-      if: ${{secrets.AWS_DEPLOY}}== 'true'
+      if: ${{st == 'true' }}
       run: |
            echo "${{secrets.KEY_EC2_E}}" >private_key && chmod 400 private_key
            ssh -o StrictHostKeyChecking=no -i "private_key" ubuntu@ec2-107-20-132-70.compute-1.amazonaws.com"
