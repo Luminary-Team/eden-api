@@ -8,9 +8,7 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    env:
-      st: ${{secrets.AWS_DEPLOY}}
-  
+    
     steps:
 
     - name: Render Deploy Action
@@ -22,6 +20,8 @@ jobs:
         api-key: ${{secrets.API_KEY}}
         wait-for-success: true
     - name: AWS Deploy Action
+      env:
+        st: ${{secrets.AWS_DEPLOY}}
       if: ${{st == 'true' }}
       run: |
            echo "${{secrets.KEY_EC2_E}}" >private_key && chmod 400 private_key
