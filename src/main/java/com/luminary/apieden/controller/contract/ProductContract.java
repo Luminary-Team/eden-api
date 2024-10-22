@@ -18,14 +18,21 @@ import java.util.Map;
 
 @Tag(name = "Product Controller", description = "Endpoints to interact with Product Entity")
 public interface ProductContract {
-    @Operation(summary = "Find all products", description = "Find all products register in the database")
+    @Operation(summary = "Find premium products", description = "Find available premium products in the database")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "All products were returned successfully"),
-            @ApiResponse(responseCode = "400", description = "No Bad Request error happens here",
-                    content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public ResponseEntity<List<Product>> getProducts();
+    @Parameter(name = "userId", description = "Id of the user")
+    public ResponseEntity<List<Product>> getPremiumProducts(String userId);
+
+    @Operation(summary = "Find not premium products", description = "Find available not premium products in the database")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "All products were returned successfully"),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    })
+    @Parameter(name = "userId", description = "Id of the user")
+    public ResponseEntity<List<Product>> getProducts(String userId);
 
     @Operation(summary = "Find product by title", description = "Find all the products with the matching title")
     @ApiResponses(value = {
