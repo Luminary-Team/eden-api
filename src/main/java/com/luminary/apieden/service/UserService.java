@@ -2,12 +2,15 @@ package com.luminary.apieden.service;
 
 import com.luminary.apieden.mapper.UserMapper;
 import com.luminary.apieden.model.database.Cart;
+import com.luminary.apieden.model.database.Product;
 import com.luminary.apieden.model.database.User;
 import com.luminary.apieden.model.exception.HttpError;
+import com.luminary.apieden.model.request.RegisterFavoriteRequest;
 import com.luminary.apieden.model.request.TokenRequest;
 import com.luminary.apieden.model.response.TokenResponse;
 import com.luminary.apieden.model.response.UserResponse;
 import com.luminary.apieden.repository.CartRepository;
+import com.luminary.apieden.repository.ProductRepository;
 import com.luminary.apieden.repository.UserRepository;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -35,6 +38,7 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final SecretKey secretKey;
     private final UserRepository userRepository;
+    private final ProductRepository productRepository;
     private final CartRepository cartRepository;
     private final UserMapper userMapper;
 
@@ -48,6 +52,21 @@ public class UserService {
                 .userId(user.getId())
                 .build());
         return userMapper.toUserResponse(user, cart);
+    }
+
+    public UserResponse registerFavorite(RegisterFavoriteRequest request) {
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
+        Product product = productRepository.findById(request.getProductId())
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Produto não encontrado"));
+        user.getFavoritesProducts().add(product);
+        userRepository.save(user);
+        return userMapper.toUserResponse(user);
+    }
+    public Set<Product> getFavorites(String userId) {
+        User user = userRepository.findById(Long.valueOf(userId))
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
+        return user.getFavoritesProducts();
     }
 
     public void partialUpdate(String id, Map<String, Object> request) throws HttpError{

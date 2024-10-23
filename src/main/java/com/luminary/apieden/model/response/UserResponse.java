@@ -1,8 +1,11 @@
 package com.luminary.apieden.model.response;
 
+import com.luminary.apieden.model.database.Product;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+
+import java.util.Set;
 
 @Getter
 @AllArgsConstructor
@@ -33,4 +36,7 @@ public class UserResponse {
 
     @Schema(name = "cartId", description = "The unique cart ID of the user", example = "1")
     private long cartId;
+
+    @Schema(name = "products", description = "The product list")
+    private Set<Product> favoritesProducts;
 }
