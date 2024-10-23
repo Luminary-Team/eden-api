@@ -1,6 +1,8 @@
 package com.luminary.apieden.controller.contract;
 
+import com.luminary.apieden.model.database.Product;
 import com.luminary.apieden.model.database.User;
+import com.luminary.apieden.model.request.RegisterFavoriteRequest;
 import com.luminary.apieden.model.request.TokenRequest;
 import com.luminary.apieden.model.response.ErrorResponse;
 import com.luminary.apieden.model.response.TokenResponse;
@@ -17,6 +19,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Tag(name = "User Controller", description = "Endpoints to interact with the User entity, deprecated endpoints require token to be accessed")
 public interface UserContract {
@@ -66,6 +69,28 @@ public interface UserContract {
                     content = @Content)
     })
     public ResponseEntity<UserResponse> register(User userRequest);
+
+    @Operation(summary = "Get favorites(requires token)", description = "Get favorites products based on the user id(requires token)", deprecated = true)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Products returned successfully"),
+            @ApiResponse(responseCode = "400", description = "User is not registered",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error",
+                    content = @Content)
+    })
+    @Parameter(name = "userId", description = "Unique ID of the user")
+    public ResponseEntity<Set<Product>> getFavorites(String userId);
+
+    @Operation(summary = "Register favorite in database(requires token)", description = "Register an favorite product in database", deprecated = true)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Favorite product registered successfully",
+                    content = @Content(schema = @Schema(implementation = UserResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid attribute passed",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error",
+                    content = @Content)
+    })
+    public ResponseEntity<UserResponse> registerFavorite(RegisterFavoriteRequest request);
 
     @Operation(summary = "Update user", description = "Update user based on the passed attributes", deprecated = true)
     @ApiResponses(value = {

@@ -11,4 +11,5 @@ public interface UserMapper {
     @Mapping(source = "user.id", target = "id")
     @Mapping(source = "cart.id", target = "cartId")
     UserResponse toUserResponse(User user, Cart cart);
+    UserResponse toUserResponse(User user);
 }

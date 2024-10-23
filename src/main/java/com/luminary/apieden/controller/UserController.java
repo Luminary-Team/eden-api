@@ -1,8 +1,10 @@
 package com.luminary.apieden.controller;
 
 import com.luminary.apieden.controller.contract.UserContract;
+import com.luminary.apieden.model.database.Product;
 import com.luminary.apieden.model.exception.HttpError;
 import com.luminary.apieden.model.database.User;
+import com.luminary.apieden.model.request.RegisterFavoriteRequest;
 import com.luminary.apieden.model.request.TokenRequest;
 import com.luminary.apieden.model.response.TokenResponse;
 import com.luminary.apieden.model.response.UserResponse;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/user")
@@ -57,6 +60,16 @@ public class UserController implements UserContract {
         log.info("Saved user in database");
 
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponse);
+    }
+
+    @GetMapping("/favorites/{userId}")
+    public ResponseEntity<Set<Product>> getFavorites(@PathVariable String userId) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.getFavorites(userId));
+    }
+
+    @PostMapping("/favorites")
+    public ResponseEntity<UserResponse> registerFavorite(@RequestBody RegisterFavoriteRequest request) {
+        return ResponseEntity.status(HttpStatus.OK).body(userService.registerFavorite(request));
     }
 
     @PatchMapping("/update/{id}")
