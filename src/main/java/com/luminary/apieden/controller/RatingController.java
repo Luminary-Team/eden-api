@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class RatingController implements RatingContract {
     private final RatingService ratingService;
 
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<Rating> getRating(@RequestParam("userAppraiserId") String userAppraiserId,
                                             @RequestParam("userAppraisedId") String userAppraisedId) {
         return ResponseEntity.status(HttpStatus.OK).body(ratingService.getRating(
@@ -33,12 +33,12 @@ public class RatingController implements RatingContract {
         );
     }
 
-    @PostMapping("")
+    @PostMapping
     public ResponseEntity<Rating> register(@RequestBody @Valid RatingRequest request) {
         return ResponseEntity.status(HttpStatus.CREATED).body(ratingService.register(request));
     }
 
-    @PatchMapping("")
+    @PatchMapping
     public ResponseEntity<Rating> update(
             @RequestParam("userAppraiserId") String userAppraiserId,
             @RequestParam("userAppraisedId") String userAppraisedId,
