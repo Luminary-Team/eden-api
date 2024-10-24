@@ -2,7 +2,6 @@ package com.luminary.apieden.service;
 
 import com.luminary.apieden.mapper.CardMapper;
 import com.luminary.apieden.model.database.Card;
-import com.luminary.apieden.model.database.User;
 import com.luminary.apieden.model.exception.HttpError;
 import com.luminary.apieden.model.request.CardRequest;
 import com.luminary.apieden.model.response.CardResponse;
