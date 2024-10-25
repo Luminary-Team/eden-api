@@ -9,5 +9,5 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ForumMapper {
     @Mapping(source = "forumResponse.id", target = "id")
-    FindForumResponse toFindForumResponse(ForumResponse forumResponse, User user);
+    FindForumResponse toFindForumResponse(ForumResponse forumResponse);
 }
