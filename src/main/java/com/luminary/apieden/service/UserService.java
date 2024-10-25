@@ -54,6 +54,12 @@ public class UserService {
         return userMapper.toUserResponse(user, cart);
     }
 
+    public Set<Product> getFavorites(String userId) {
+        User user = userRepository.findById(Long.valueOf(userId))
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
+        return user.getFavoritesProducts();
+    }
+
     public UserResponse registerFavorite(RegisterFavoriteRequest request) {
         User user = userRepository.findById(request.getUserId())
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
@@ -63,10 +69,14 @@ public class UserService {
         userRepository.save(user);
         return userMapper.toUserResponse(user);
     }
-    public Set<Product> getFavorites(String userId) {
-        User user = userRepository.findById(Long.valueOf(userId))
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
-        return user.getFavoritesProducts();
+
+    public void deleteFavorite(RegisterFavoriteRequest request) {
+        User user = userRepository.findById(request.getUserId())
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encnotrado"));
+        Product product = productRepository.findById(request.getProductId())
+                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Produto não encontrado"));
+        user.getFavoritesProducts().remove(product);
+        userRepository.save(user);
     }
 
     public void partialUpdate(String id, Map<String, Object> request) throws HttpError{
