@@ -44,7 +44,6 @@ public class User {
 
     @Column(name = "cpf", nullable = false, unique = true)
     @NotBlank(message = "O campo 'cpf' deve ser passado")
-    @CPF(message = "O campo 'cpf' é inválido")
     @Schema(name = "cpf", description = "The cpf of the user", example = "42391552076")
     private String cpf;
 
