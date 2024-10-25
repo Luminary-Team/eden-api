@@ -72,6 +72,12 @@ public class UserController implements UserContract {
         return ResponseEntity.status(HttpStatus.OK).body(userService.registerFavorite(request));
     }
 
+    @DeleteMapping("/favorites")
+    public ResponseEntity<UserResponse> deleteFavorite(@RequestBody RegisterFavoriteRequest request) {
+        userService.deleteFavorite(request);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+    }
+
     @PatchMapping("/update/{id}")
     public ResponseEntity<Map<String, Object>> partialUpdate(@PathVariable String id, @RequestBody Map<String, Object> request) {
         log.info("Entering in partialUpdate method.");
