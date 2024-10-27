@@ -49,8 +49,9 @@ public class ProductService {
         return productRepository.findByUserId(Long.parseLong(userId));
     }
 
-    public List<Product> findProductByTitleLike(String title) {
-        return productRepository.findByTitleLike(title);
+    public List<Product> findProductByTitleLike(String userId, String title) {
+        List<Product> products = productRepository.findProductsByUserIdNotAndTitleLikeIgnoreCase(Long.parseLong(userId), title);
+        return filterSoldProducts(products);
 
     }
 
