@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByUserId(long id);
-    List<Product> findByTitleLike(String title);
+    List<Product> findProductsByUserIdNotAndTitleLikeIgnoreCase(long userId, String title);
     List<Product> findProductsByUserIdNotAndPremiumIsTrue(long userId);
     List<Product> findProductsByUserIdNotAndPremiumIsFalse(long userId);
 }
