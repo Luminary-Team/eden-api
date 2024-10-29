@@ -1,5 +1,6 @@
 package com.luminary.apieden.controller;
 
+import com.luminary.apieden.controller.contract.ForumContract;
 import com.luminary.apieden.model.response.FindForumResponse;
 import com.luminary.apieden.service.ForumService;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/forum")
 @RequiredArgsConstructor
-public class ForumController {
+public class ForumController implements ForumContract {
     private final ForumService forumService;
     @GetMapping
     public ResponseEntity<List<FindForumResponse>> findAll(@RequestParam(required = false) String id) {
