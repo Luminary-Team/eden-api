@@ -51,16 +51,18 @@ public class ForumService {
     }
 
     private List<FindForumResponse.FindForumComment> fetchingUsersOfComments(List<ForumResponse.Comment> comments) {
-        return comments.stream()
-                .map(comment -> {
-                    User user = userRepository.findById(comment.getUserId())
-                            .orElseThrow(() -> new HttpError(HttpStatus.INTERNAL_SERVER_ERROR, "Usuário não encontrado"));
-                    log.info("[FORUM] User {}", user);
-                    FindForumResponse.FindForumComment findForumComment = FindForumResponse.FindForumComment.builder()
-                            .user(user)
-                            .content(comment.getContent())
-                            .build();
-                    return findForumComment;
-                }).toList();
+        if(comments != null) {
+            return comments.stream()
+                    .map(comment -> {
+                        User user = userRepository.findById(comment.getUserId())
+                                .orElseThrow(() -> new HttpError(HttpStatus.INTERNAL_SERVER_ERROR, "Usuário não encontrado"));
+                        log.info("[FORUM] User {}", user);
+                        return FindForumResponse.FindForumComment.builder()
+                                .user(user)
+                                .content(comment.getContent())
+                                .build();
+                    }).toList();
+        }
+        return null;
     }
 }
