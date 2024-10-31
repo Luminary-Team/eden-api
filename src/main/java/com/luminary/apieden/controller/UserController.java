@@ -73,8 +73,10 @@ public class UserController implements UserContract {
     }
 
     @DeleteMapping("/favorites")
-    public ResponseEntity<UserResponse> deleteFavorite(@RequestBody RegisterFavoriteRequest request) {
-        userService.deleteFavorite(request);
+    public ResponseEntity<UserResponse> deleteFavorite(
+            @RequestParam String userId,
+            @RequestParam String productId) {
+        userService.deleteFavorite(userId, productId);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
     }
 
