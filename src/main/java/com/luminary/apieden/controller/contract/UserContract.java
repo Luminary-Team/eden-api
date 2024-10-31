@@ -92,6 +92,17 @@ public interface UserContract {
     })
     public ResponseEntity<UserResponse> registerFavorite(RegisterFavoriteRequest request);
 
+    @Operation(summary = "Delete favorite product", description = "Delete favorite product based on the userId and productId", deprecated = true)
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Favorite deleted successfully",
+                    content = @Content),
+            @ApiResponse(responseCode = "400", description = "Invalid userId or productId",
+                    content = @Content(schema = @Schema(implementation = ErrorResponse.class))),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error",
+                    content = @Content)
+    })
+    public ResponseEntity<UserResponse> deleteFavorite(String userId, String productId);
+
     @Operation(summary = "Update user", description = "Update user based on the passed attributes", deprecated = true)
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Updated user successfully",
