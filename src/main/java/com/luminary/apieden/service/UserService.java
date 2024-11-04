@@ -70,10 +70,14 @@ public class UserService {
         return userMapper.toUserResponse(user);
     }
 
-    public void deleteFavorite(RegisterFavoriteRequest request) {
-        User user = userRepository.findById(request.getUserId())
+    public void deleteFavorite(
+            String userId,
+            String productId) {
+        User user = userRepository.findById(Long.valueOf(userId))
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encnotrado"));
-        Product product = productRepository.findById(request.getProductId())
+        Product product = user.getFavoritesProducts().stream()
+                        .filter(productItem -> Long.parseLong(productId) == productItem.getId())
+                        .findFirst()
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Produto não encontrado"));
         user.getFavoritesProducts().remove(product);
         userRepository.save(user);
