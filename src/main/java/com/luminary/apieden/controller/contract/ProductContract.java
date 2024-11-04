@@ -41,7 +41,7 @@ public interface ProductContract {
                     content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal Server Error")
     })
-    public ResponseEntity<List<Product>> getProductByTitleLike(String title);
+    public ResponseEntity<List<Product>> getProductByTitleLike(String userId, String title);
 
     @Operation(summary = "Find product by id", description = "Find product by his id")
     @ApiResponses(value = {

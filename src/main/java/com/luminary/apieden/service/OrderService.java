@@ -8,6 +8,7 @@ import com.luminary.apieden.model.database.OrderItem;
 import com.luminary.apieden.model.database.PaymentType;
 import com.luminary.apieden.model.database.Product;
 import com.luminary.apieden.model.database.StatusOrder;
+import com.luminary.apieden.model.database.User;
 import com.luminary.apieden.model.enums.StatusOrderEnum;
 import com.luminary.apieden.model.exception.HttpError;
 import com.luminary.apieden.model.request.RegisterOrderRequest;
@@ -19,6 +20,7 @@ import com.luminary.apieden.repository.OrderItemRepository;
 import com.luminary.apieden.repository.OrderRepository;
 import com.luminary.apieden.repository.PaymentTypeRepository;
 import com.luminary.apieden.repository.ProductRepository;
+import com.luminary.apieden.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -37,6 +39,7 @@ public class OrderService {
     private final CartRepository cartRepository;
     private final CartItemRepository cartItemRepository;
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
     private final OrderMapper orderMapper;
 
     public OrderResponse registerOrder(RegisterOrderRequest request) {
@@ -49,6 +52,8 @@ public class OrderService {
                 .build();
         Cart cart = cartRepository.findById(request.getCartId())
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Carrinho não encontrado."));
+        User user = userRepository.findById(cart.getUserId())
+                .orElseThrow(() -> new HttpError(HttpStatus.INTERNAL_SERVER_ERROR, "Usuário não encontrado"));
         Order order = orderMapper.toOrder(request, StatusOrderEnum.ENTREGUE.getId(), LocalDate.now(), cart.getUserId(), cart.getTotalSale());
         orderRepository.save(order);
         List<CartItem> cartItemList = cartItemRepository.findCartItemsByCartId(request.getCartId());
@@ -60,6 +65,8 @@ public class OrderService {
                                     log.error("Product Id {} not found", cartItem.getProductId());
                                     return new HttpError(HttpStatus.INTERNAL_SERVER_ERROR, "Produto não encontrado para compra, contate o suporte");
                                 });
+                        user.getFavoritesProducts().remove(product);
+                        userRepository.save(user);
                         OrderItem orderItem = OrderItem.builder()
                                 .orderId(order.getId())
                                 .product(product)
@@ -79,11 +86,9 @@ public class OrderService {
         if (!orderList.isEmpty()) {
             orderList.stream()
                     .map(order -> orderItemRepository.findOrderItemsByOrderId(order.getId()))
-                    .forEach(orderItems -> {
-                        orderItems.forEach(orderItem ->
-                                findAllOrderResponse.add(orderItem.getProduct())
-                        );
-                    });
+                    .forEach(orderItems -> orderItems.forEach(orderItem ->
+                            findAllOrderResponse.add(orderItem.getProduct())
+                    ));
             return findAllOrderResponse;
         }
         throw new HttpError(HttpStatus.BAD_REQUEST, "Nenhum pedido realizado ainda");
