@@ -28,7 +28,7 @@ public class ForumService {
             return forumList.stream()
                     .map(forum -> {
                         FindForumResponse findForumResponse = forumMapper.toFindForumResponse(forum);
-                        User user = userRepository.findById(forum.getUserId())
+                        User user = userRepository.findById(forum.getUser_id())
                                         .orElseThrow(() ->
                                                 new HttpError(HttpStatus.INTERNAL_SERVER_ERROR, "Usuário não encontrado")
                                         );
