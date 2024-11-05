@@ -48,7 +48,7 @@ public class ProductController implements ProductContract {
 
     @GetMapping("/getByTitle")
     public ResponseEntity<List<Product>> getProductByTitleLike(
-            @RequestParam String userId,
+            @RequestHeader String userId,
             @RequestParam("title") String title) {
         List<Product> productList = productService.findProductByTitleLike(userId, title);
         return ResponseEntity.status(HttpStatus.OK).body(productList);

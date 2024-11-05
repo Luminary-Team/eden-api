@@ -6,17 +6,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 @Getter
 @Setter
+@AllArgsConstructor
 @Builder
-public class FindForumResponse {
-    private String id;
-    private long postId;
+public class FindForumComment {
     private User user;
     private String content;
-    private List<FindForumComment> comments;
-    private LocalDateTime postDate;
 }
