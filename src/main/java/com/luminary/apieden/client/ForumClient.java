@@ -11,6 +11,6 @@ import java.util.List;
 public interface ForumClient {
     @GetMapping("/forum")
     List<ForumResponse> findAll();
-    @GetMapping("/forum/{id}")
-    ForumResponse findById(@PathVariable String id);
+    @GetMapping("/forum/user/{userId}")
+    List<ForumResponse> findById(@PathVariable String userId);
 }
