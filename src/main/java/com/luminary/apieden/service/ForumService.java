@@ -2,11 +2,14 @@ package com.luminary.apieden.service;
 
 import com.luminary.apieden.client.ForumClient;
 import com.luminary.apieden.mapper.ForumMapper;
+import com.luminary.apieden.model.client.CommentResponse;
 import com.luminary.apieden.model.client.ForumResponse;
 import com.luminary.apieden.model.database.User;
 import com.luminary.apieden.model.exception.HttpError;
+import com.luminary.apieden.model.response.FindForumComment;
 import com.luminary.apieden.model.response.FindForumResponse;
 import com.luminary.apieden.repository.UserRepository;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -32,17 +35,22 @@ public class ForumService {
                                         .orElseThrow(() ->
                                                 new HttpError(HttpStatus.INTERNAL_SERVER_ERROR, "Usuário não encontrado")
                                         );
-                        List<FindForumResponse.FindForumComment> findForumComment = fetchingUsersOfComments(forum.getComments());
                         findForumResponse.setUser(user);
-                        findForumResponse.setComments(findForumComment);
                         return findForumResponse;
                     })
                     .toList();
         } else {
-            ForumResponse forumResponse = forumClient.findById(id);
-            List<FindForumResponse.FindForumComment> comments = fetchingUsersOfComments(forumResponse.getComments());
+            ForumResponse forumResponse;
+            try {
+                forumResponse = forumClient.findById(id)
+                        .stream().findFirst()
+                        .orElse(null);
+            } catch (FeignException.BadRequest feign) {
+                throw new HttpError(HttpStatus.BAD_REQUEST, "Usuário não fez nenhum post.");
+            }
             User user = userRepository.findById(forumResponse.getUserId())
                     .orElseThrow(() -> new HttpError(HttpStatus.INTERNAL_SERVER_ERROR, "Usuário não encontrado"));
+            List<FindForumComment> comments = fetchingUsersOfComments(forumResponse.getComments());
             FindForumResponse findForumResponse = forumMapper.toFindForumResponse(forumResponse);
             findForumResponse.setUser(user);
             findForumResponse.setComments(comments);
@@ -50,19 +58,19 @@ public class ForumService {
         }
     }
 
-    private List<FindForumResponse.FindForumComment> fetchingUsersOfComments(List<ForumResponse.Comment> comments) {
+    private List<FindForumComment> fetchingUsersOfComments(List<CommentResponse> comments) {
         if(comments != null) {
             return comments.stream()
                     .map(comment -> {
                         User user = userRepository.findById(comment.getUserId())
                                 .orElseThrow(() -> new HttpError(HttpStatus.INTERNAL_SERVER_ERROR, "Usuário não encontrado"));
                         log.info("[FORUM] User {}", user);
-                        return FindForumResponse.FindForumComment.builder()
+                        return FindForumComment.builder()
                                 .user(user)
                                 .content(comment.getContent())
                                 .build();
                     }).toList();
         }
-        return null;
+        return List.of();
     }
 }
