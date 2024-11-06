@@ -69,8 +69,7 @@ public class ProductService {
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "'Tempo de uso' não encontrado"));
         conditionTypeRepository.findById(productRequest.getConditionTypeId())
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "'Tipo de condição' não encontrado"));
-        Product product = productMapper.toProduct(productRequest);
-        product.setUserId(user.getId());
+        Product product = productMapper.toProduct(productRequest, user);
         productRepository.save(product);
         log.info("Product registered with success: {}", product);
         return product;
