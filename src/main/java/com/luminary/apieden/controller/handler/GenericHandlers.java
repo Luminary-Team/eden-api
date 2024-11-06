@@ -32,9 +32,9 @@ public class GenericHandlers {
         return errors;
     }
 
-//    @ExceptionHandler(HttpError.class)
-//    public ResponseEntity<ErrorResponse> genericHandler(HttpError error) {
-//        log.error("An error occurred. {}", error.getMessage());
-//        return ResponseEntity.status(error.getHttpStatus()).body(errorMapper.toErrorResponse(error));
-//    }
+    @ExceptionHandler(HttpError.class)
+    public ResponseEntity<ErrorResponse> genericHandler(HttpError error) {
+        log.error("An error occurred. {}", error.getMessage());
+        return ResponseEntity.status(error.getHttpStatus()).body(errorMapper.toErrorResponse(error));
+    }
 }
