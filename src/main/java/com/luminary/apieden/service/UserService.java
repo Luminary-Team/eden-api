@@ -1,6 +1,8 @@
 package com.luminary.apieden.service;
 
+import com.luminary.apieden.client.Neo4jClient;
 import com.luminary.apieden.mapper.UserMapper;
+import com.luminary.apieden.model.client.CreateUserRequest;
 import com.luminary.apieden.model.database.Cart;
 import com.luminary.apieden.model.database.Product;
 import com.luminary.apieden.model.database.User;
@@ -12,6 +14,7 @@ import com.luminary.apieden.model.response.UserResponse;
 import com.luminary.apieden.repository.CartRepository;
 import com.luminary.apieden.repository.ProductRepository;
 import com.luminary.apieden.repository.UserRepository;
+import feign.FeignException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.validation.ConstraintViolation;
@@ -41,6 +44,7 @@ public class UserService {
     private final ProductRepository productRepository;
     private final CartRepository cartRepository;
     private final UserMapper userMapper;
+    private final Neo4jClient neo4jClient;
 
     public UserResponse register(User user) throws HttpError {
         log.info("Checking unique fields");
@@ -51,6 +55,15 @@ public class UserService {
         Cart cart = cartRepository.save(Cart.builder()
                 .userId(user.getId())
                 .build());
+        try {
+            neo4jClient.createUser(CreateUserRequest.builder()
+                    .userId(user.getId())
+                    .userName(user.getName())
+                    .build()
+            );
+        } catch (FeignException.BadRequest badRequest) {
+            log.error("[NEO4J CLIENT] Neo4j gave me a bad request response: {}", badRequest.getMessage());
+        }
         return userMapper.toUserResponse(user, cart);
     }
 
