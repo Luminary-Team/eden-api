@@ -1,6 +1,8 @@
 package com.luminary.apieden.service;
 
+import com.luminary.apieden.client.Neo4jClient;
 import com.luminary.apieden.mapper.OrderMapper;
+import com.luminary.apieden.model.client.CreateRelationshipRequest;
 import com.luminary.apieden.model.database.Cart;
 import com.luminary.apieden.model.database.CartItem;
 import com.luminary.apieden.model.database.Order;
@@ -21,12 +23,14 @@ import com.luminary.apieden.repository.OrderRepository;
 import com.luminary.apieden.repository.PaymentTypeRepository;
 import com.luminary.apieden.repository.ProductRepository;
 import com.luminary.apieden.repository.UserRepository;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -41,8 +45,10 @@ public class OrderService {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final OrderMapper orderMapper;
+    private final Neo4jClient neo4jClient;
 
     public OrderResponse registerOrder(RegisterOrderRequest request) {
+        List<CreateRelationshipRequest> productsList = new ArrayList<>();
         PaymentType paymentType = paymentTypeRepository.findById(request.getPaymentTypeId())
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "'Tipo de pagamento' não encontrado"));
         StatusOrder statusOrder = StatusOrder.builder()
@@ -65,6 +71,13 @@ public class OrderService {
                                     log.error("Product Id {} not found", cartItem.getProductId());
                                     return new HttpError(HttpStatus.INTERNAL_SERVER_ERROR, "Produto não encontrado para compra, contate o suporte");
                                 });
+                        CreateRelationshipRequest createRelationshipRequest = CreateRelationshipRequest.builder()
+                                .productId(product.getId())
+                                .purchaserId(user.getId())
+                                .sellerId(product.getUserId())
+                                .build();
+                        log.info("[ORDER SERVICE] Create Relation Request: {}", createRelationshipRequest);
+                        productsList.add(createRelationshipRequest);
                         user.getFavoritesProducts().remove(product);
                         userRepository.save(user);
                         OrderItem orderItem = OrderItem.builder()
@@ -74,6 +87,12 @@ public class OrderService {
                         cartItemRepository.deleteCartItemsByProductId(cartItem.getProductId());
                         orderItemRepository.save(orderItem);
                     });
+            try {
+                log.info("[ORDER SERVICE] Calling neo4j api");
+                neo4jClient.createRelationship(productsList);
+            } catch (FeignException.BadRequest | FeignException.InternalServerError exceptionRequest) {
+                log.error("[ORDER SERVICE] An error occurred while trying to call Neo4j API: {}", exceptionRequest.status());
+            }
             cartRepository.totalSaleCalc((int) request.getCartId());
             return orderMapper.toOrderResponse(order, statusOrder, paymentType);
         }
