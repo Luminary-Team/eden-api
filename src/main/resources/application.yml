@@ -19,3 +19,4 @@ server:
 
 api:
   mongo: ${URL_MONGO}
+  neo4j: ${URL_NEO4J}
