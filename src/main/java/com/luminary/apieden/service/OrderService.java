@@ -74,7 +74,7 @@ public class OrderService {
                         CreateRelationshipRequest createRelationshipRequest = CreateRelationshipRequest.builder()
                                 .productId(product.getId())
                                 .purchaserId(user.getId())
-                                .sellerId(product.getUserId())
+                                .sellerId(product.getUser().getId())
                                 .build();
                         log.info("[ORDER SERVICE] Create Relation Request: {}", createRelationshipRequest);
                         productsList.add(createRelationshipRequest);
