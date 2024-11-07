@@ -15,4 +15,5 @@ public class ForumResponse {
     private String content;
     private List<CommentResponse> comments;
     private LocalDateTime postDate;
+    private List<Long> engager;
 }
