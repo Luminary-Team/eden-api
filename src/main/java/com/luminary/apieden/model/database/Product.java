@@ -3,6 +3,8 @@ package com.luminary.apieden.model.database;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
@@ -43,10 +45,10 @@ public class Product {
     @Schema(name = "conditionType", description = "The corresponding condition type", example = "1")
     private long conditionTypeId;
 
-    @Column(name = "fk_user_id")
-    @NotNull(message = "O campo 'user' precisa ser passado")
+    @OneToOne
+    @JoinColumn(name = "fk_user_id")
     @Schema(name = "user", description = "The information about the user responsible for the creation of the user", implementation = User.class)
-    private long userId;
+    private User user;
 
     @Column(name = "title", nullable = false, unique = true)
     @NotBlank(message = "O campo 'title' não pode ser vazio")
