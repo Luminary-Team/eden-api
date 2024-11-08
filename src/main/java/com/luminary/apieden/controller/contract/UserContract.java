@@ -19,7 +19,6 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Tag(name = "User Controller", description = "Endpoints to interact with the User entity, deprecated endpoints require token to be accessed")
 public interface UserContract {
@@ -79,7 +78,7 @@ public interface UserContract {
                     content = @Content)
     })
     @Parameter(name = "userId", description = "Unique ID of the user")
-    public ResponseEntity<Set<Product>> getFavorites(String userId);
+    public ResponseEntity<List<Product>> getFavorites(String userId);
 
     @Operation(summary = "Register favorite in database(requires token)", description = "Register an favorite product in database", deprecated = true)
     @ApiResponses(value = {
