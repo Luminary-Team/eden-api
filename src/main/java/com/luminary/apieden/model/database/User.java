@@ -3,6 +3,7 @@ package com.luminary.apieden.model.database;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -84,13 +85,4 @@ public class User {
     @Size(message = "O campo 'cellphone' tem que ter 11 digítos", min = 11, max = 11)
     @Schema(name = "cellphone", description = "The phone of the user", example = "11400289220")
     private String cellphone;
-
-    @ManyToMany
-    @JoinTable(
-            name = "favorites",
-            joinColumns = @JoinColumn(name = "fk_user_id"),
-            inverseJoinColumns = @JoinColumn(name = "fk_product_id")
-    )
-    @Schema(name = "favoritesProducts", description = "The user favorites products")
-    private Set<Product> favoritesProducts;
 }
