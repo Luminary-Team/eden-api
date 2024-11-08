@@ -28,6 +28,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -67,10 +68,17 @@ public class UserService {
         return userMapper.toUserResponse(user, cart);
     }
 
-    public Set<Product> getFavorites(String userId) {
+    public List<Product> getFavorites(String userId) {
         User user = userRepository.findById(Long.valueOf(userId))
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
-        return user.getFavoritesProducts();
+        List<Long> productIdList = userRepository.findFavorites(user.getId());
+        List<Product> productList = new ArrayList<>();
+        productIdList
+                .forEach(id -> productList.add(
+                        productRepository.findById(id)
+                                .orElseThrow(() -> new HttpError(HttpStatus.INTERNAL_SERVER_ERROR, "Produto não encontrado, contate o suporte técnico."))
+                ));
+        return productList;
     }
 
     public UserResponse registerFavorite(RegisterFavoriteRequest request) {
@@ -78,8 +86,7 @@ public class UserService {
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
         Product product = productRepository.findById(request.getProductId())
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Produto não encontrado"));
-        user.getFavoritesProducts().add(product);
-        userRepository.save(user);
+        userRepository.addProductToUser(user.getId(), product.getId());
         return userMapper.toUserResponse(user);
     }
 
@@ -88,12 +95,7 @@ public class UserService {
             String productId) {
         User user = userRepository.findById(Long.valueOf(userId))
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encnotrado"));
-        Product product = user.getFavoritesProducts().stream()
-                        .filter(productItem -> Long.parseLong(productId) == productItem.getId())
-                        .findFirst()
-                .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Produto não encontrado"));
-        user.getFavoritesProducts().remove(product);
-        userRepository.save(user);
+        userRepository.removeProductFromUser(user.getId(), Long.valueOf(productId));
     }
 
     public void partialUpdate(String id, Map<String, Object> request) throws HttpError{

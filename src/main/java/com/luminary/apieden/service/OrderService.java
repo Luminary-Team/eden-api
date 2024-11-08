@@ -78,8 +78,7 @@ public class OrderService {
                                 .build();
                         log.info("[ORDER SERVICE] Create Relation Request: {}", createRelationshipRequest);
                         productsList.add(createRelationshipRequest);
-                        user.getFavoritesProducts().remove(product);
-                        userRepository.save(user);
+                        userRepository.removeProductFromUser(user.getId(), product.getId());
                         OrderItem orderItem = OrderItem.builder()
                                 .orderId(order.getId())
                                 .product(product)
