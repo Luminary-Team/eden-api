@@ -36,13 +36,11 @@ public class ProductService {
     private final ProductMapper productMapper;
 
     public List<Product> getPremiumProducts(String userId) {
-        List<Product> productList = productRepository.findProductsByUserIdNotAndPremiumIsTrue(Long.parseLong(userId));
-        return filterSoldProducts(productList);
+        return productRepository.findProductsByUserIdNotAndPremiumIsTrue(Long.parseLong(userId));
     }
 
     public List<Product> getNotPremiumProducts(String userId) {
-        List<Product> productList = productRepository.findProductsByUserIdNotAndPremiumIsFalse(Long.parseLong(userId));
-        return filterSoldProducts(productList);
+        return productRepository.findProductsByUserIdNotAndPremiumIsFalse(Long.parseLong(userId));
     }
 
     public List<Product> findProductByUserId(String userId) {
@@ -50,9 +48,7 @@ public class ProductService {
     }
 
     public List<Product> findProductByTitleLike(String userId, String title) {
-        List<Product> products = productRepository.findProductsByUserIdNotAndTitleLikeIgnoreCase(Long.parseLong(userId), title);
-        return filterSoldProducts(products);
-
+        return productRepository.findProductsByUserIdNotAndTitleLikeIgnoreCase(Long.parseLong(userId), title);
     }
 
     public Product findProductById(String productId) {
@@ -163,17 +159,5 @@ public class ProductService {
         log.info("[PRODUCT] Deleting product");
         productRepository.deleteById(Long.valueOf(id));
         log.info("[PRODUCT] Product deleted");
-    }
-
-    private List<Product> filterSoldProducts(List<Product> productList) {
-        List<OrderItem> orderItemList = orderItemRepository.findAll();
-        orderItemList
-                .forEach(orderItem ->
-                        productList.stream()
-                                .filter(product -> product.equals(orderItem.getProduct()))
-                                .toList()
-                                .forEach(productList::remove)
-                );
-        return productList;
     }
 }
