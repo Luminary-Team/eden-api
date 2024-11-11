@@ -63,7 +63,7 @@ public class UserController implements UserContract {
     }
 
     @GetMapping("/favorites/{userId}")
-    public ResponseEntity<Set<Product>> getFavorites(@PathVariable String userId) {
+    public ResponseEntity<List<Product>> getFavorites(@PathVariable String userId) {
         return ResponseEntity.status(HttpStatus.OK).body(userService.getFavorites(userId));
     }
 
