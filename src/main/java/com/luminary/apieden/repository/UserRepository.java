@@ -27,7 +27,12 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Modifying
     @Transactional
     @Query(value = "DELETE FROM favorites WHERE favorites.fk_user_id = :userId AND favorites.fk_product_id = :productId", nativeQuery = true)
-    void removeProductFromUser(@Param("userId") Long userId, @Param("productId") Long productId);
+    void removeFavoriteProductFromUser(@Param("userId") Long userId, @Param("productId") Long productId);
+
+    @Modifying
+    @Transactional
+    @Query(value = "DELETE FROM favorites WHERE favorites.fk_product_id = :productId", nativeQuery = true)
+    void removeFavoriteProduct(@Param("productId") Long productId);
 
     @Modifying
     @Transactional
