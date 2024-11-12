@@ -8,6 +8,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
+    @Mapping(target = "id", ignore = true)
     @Mapping(source = "user", target = "user")
     Product toProduct(ProductRequest request, User user);
 }
