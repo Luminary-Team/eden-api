@@ -18,5 +18,6 @@ public class FindForumResponse {
     private User user;
     private String content;
     private List<FindForumComment> comments;
+    private List<Long> engager;
     private LocalDateTime postDate;
 }
