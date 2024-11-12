@@ -95,7 +95,7 @@ public class UserService {
             String productId) {
         User user = userRepository.findById(Long.valueOf(userId))
                 .orElseThrow(() -> new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encnotrado"));
-        userRepository.removeProductFromUser(user.getId(), Long.valueOf(productId));
+        userRepository.removeFavoriteProductFromUser(user.getId(), Long.valueOf(productId));
     }
 
     public void partialUpdate(String id, Map<String, Object> request) throws HttpError{
