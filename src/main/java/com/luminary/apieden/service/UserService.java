@@ -194,7 +194,7 @@ public class UserService {
 
     public TokenResponse token(TokenRequest tokenRequest) throws HttpError {
         User user = userRepository.findByEmail(tokenRequest.getEmail())
-                .orElseThrow(() ->  new HttpError(HttpStatus.BAD_REQUEST, "Usuário não encontrado"));
+                .orElseThrow(() ->  new HttpError(HttpStatus.BAD_REQUEST, "[Token] E-mail passado para criar token não existe na base"));
         if (user != null) {
             try {
                 String token = Jwts.builder()
